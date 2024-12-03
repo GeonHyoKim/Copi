@@ -61,12 +61,12 @@
         </table>
     </div>
 
-    <!-- 쪽지 보내기 버튼 -->
-    <div class="mt-12 text-center">
-        <button onclick="location.href='/usr/message/send'" class="bg-pink-600 hover:bg-pink-700 text-white font-bold px-6 py-3 rounded-full shadow-lg transition duration-300">
-            쪽지 보내기
-        </button>
-    </div>
+	<div class="mt-8 text-center">
+		<button onclick="history.back()"
+			class="bg-gray-600 hover:bg-gray-700 text-white font-bold px-6 py-3 rounded-full shadow-lg transition duration-300 mr-4">
+			뒤로가기</button>
+	</div>
+	
 </section>
 
 <%@ include file="/WEB-INF/jsp/common/footer.jsp"%>

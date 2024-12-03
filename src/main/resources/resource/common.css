@@ -134,3 +134,43 @@ body {
     background-color: #eef;
 }
 
+.btn-like {
+    background-color: #ff4b5c; /* 하트 색상 (레드 계열) */
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 하트 아이콘 기본 스타일 */
+.heart-icon i {
+    font-size: 20px;
+    transition: transform 0.3s ease;
+}
+
+/* 버튼 호버 효과 */
+.btn-like:hover {
+    background-color: #ff1f2c; /* 호버 시 색상 변경 */
+    transform: scale(1.1); /* 버튼 크기 확대 */
+}
+
+/* 클릭 시 애니메이션 */
+.btn-like:active .heart-icon i {
+    transform: scale(1.2); /* 클릭 시 아이콘 커지기 */
+}
+
+/* 좋아요 눌린 상태의 하트 */
+.fa-solid {
+    color: #ffeb3b; /* 노란색 하트 */
+}
+
+/* 기본 하트 상태의 색상 */
+.fa-regular {
+    color: white;
+}

@@ -1,8 +1,7 @@
 package com.example.demo.controller;
 
-import java.util.HashMap;
+import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,20 +9,29 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.example.demo.dao.PicService;
+import com.example.demo.service.HeartService;
 import com.example.demo.service.MemberService;
 
+import dto.Heart;
 import dto.Member;
+import dto.Pic;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class MemberController {
 
 	private MemberService memberService;
+	private HeartService heartService;
+	private PicService picService;
 	private HttpSession session;
 
-	public MemberController(MemberService memberService, HttpSession session) {
+	public MemberController(MemberService memberService, HeartService heartService, PicService picService, HttpSession session) {
 		this.memberService = memberService;
+		this.heartService = heartService;
+		this.picService = picService;
 		this.session = session;
 	}
 
@@ -39,8 +47,14 @@ public class MemberController {
 	}
 
 	@PostMapping("/usr/member/doJoin")
-	public String doJoin(Model model, String loginId, String loginPw, String name, int age, String sex, int num, String areaId) {
+	public String doJoin(Model model, String loginId, String loginPw, String name, int age, String sex, int num, String areaId, MultipartFile pic) throws IOException {
 		memberService.joinMember(loginId, loginPw, name, age, sex, num, areaId);
+		Member member = memberService.getMemberId(loginId);
+		
+		if (!pic.isEmpty()) {
+	        picService.savePic(member.getId(), pic);
+	    }
+		
 		model.addAttribute("message", "회원가입 성공.");
 		return "/usr/home/success";
 	}
@@ -94,16 +108,18 @@ public class MemberController {
 	@GetMapping("/usr/member/myPage")
 	public String myPage(Model model) {
 		Member member = (Member) session.getAttribute("loginedMember");
-
+		
 		if (member == null) {
 			model.addAttribute("message", "로그인 먼저 해주세요.");
 			return "/usr/home/fail";
 		}
-
+		
+		List<Pic> pics = picService.getPicById(member.getId()); 
+		
+		model.addAttribute("pics", pics);
 		model.addAttribute("member", member);
 		return "usr/member/myPage";
 	}
-	
 	
 	@GetMapping("/usr/member/list")
 	public String list(Model model) {
@@ -120,30 +136,50 @@ public class MemberController {
 		
 		memberService.increaseView(id);
 		
+		int likeCount = heartService.getLikePointCnt(id);
+		
 		model.addAttribute("member", member);
+		model.addAttribute("likeCount", likeCount);
 		
 		return "/usr/member/detail";
 	}
 	
-	@PostMapping("/usr/member/increaseHeart")
+	@GetMapping("/usr/heart/clickLikePoint")
 	@ResponseBody
-	public Map<String, Object> increaseHeart(@RequestParam("id") int id) {
-	    Map<String, Object> response = new HashMap<>();
-	    
-	    try {
-	        // 하트 수 증가 메서드 호출
-	        memberService.increaseHeart(id);
-	        
-	        // 성공적으로 하트 수 증가한 후, 새로운 하트 수 반환
-	        Member updatedMember = memberService.getMemberById(id);
-	        response.put("success", true);
-	        response.put("newHeartCount", updatedMember.getHearts());
-	    } catch (Exception e) {
-	        response.put("success", false);
+	public String clickLikePoint(@RequestParam int senderId, @RequestParam int receiverId, boolean likePointBtn) {
+		int likeCount;
+
+	    if (likePointBtn) {
+	        heartService.deleteLikePoint(senderId, receiverId);
+	        likeCount = heartService.getLikePointCnt(receiverId);
+	        return likeCount + ";좋아요 취소";
 	    }
-	    
-	    return response;
+
+	    heartService.insertLikePoint(senderId, receiverId);
+	    likeCount = heartService.getLikePointCnt(receiverId);
+	    return likeCount + ";좋아요 추가";
 	}
+	
+	@GetMapping("/usr/heart/getLikePoint")
+	@ResponseBody
+	public String getLikePoint(int receiverId) {
+	    Member member = (Member) session.getAttribute("loginedMember");
+
+	    if (member == null) {
+	        return "로그인 해주세요.";
+	    }
+
+	    Heart heart = heartService.getLikePoint(member.getId(), receiverId);
+	    int likeCount = heartService.getLikePointCnt(receiverId);
+
+	    if (heart != null) {
+	        return "좋아요 상태: 이미 좋아요 누름, 총 좋아요 수: " + likeCount;
+	    } else {
+	        return "좋아요 상태: 좋아요 안 누름, 총 좋아요 수: " + likeCount;
+	    }
+	}
+
+
 	
 	
 

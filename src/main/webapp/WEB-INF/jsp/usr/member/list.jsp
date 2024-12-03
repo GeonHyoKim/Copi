@@ -29,7 +29,7 @@
                         </a>
                     </td>
                     <td>${member.getViews()}</td>
-                    <td>${member.getHearts()}</td>
+                    <td></td>
                 </tr>
             </c:forEach>
         </tbody>

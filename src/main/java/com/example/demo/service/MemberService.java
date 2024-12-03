@@ -32,8 +32,6 @@ public class MemberService {
 		memberDao.increaseView(id);		
 	}
 	
-	public void increaseHeart(int id) {
-	    memberDao.increaseHeart(id);
-	}
+	
 
 }

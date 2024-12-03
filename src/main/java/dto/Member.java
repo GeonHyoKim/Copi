@@ -19,5 +19,4 @@ public class Member {
 	private String sex;
 	private String areaId;
 	private int views;
-	private int hearts;
 }

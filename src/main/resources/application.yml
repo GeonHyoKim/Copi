@@ -10,3 +10,11 @@ spring:
     url: jdbc:mysql://localhost:3307/kgh
     username: root
     password:
+
+servlet:
+  multipart:
+    enabled: true
+    max-file-size: 10MB
+custom:
+  file:
+   dir: C:/kgh/workspace/kgh/upload

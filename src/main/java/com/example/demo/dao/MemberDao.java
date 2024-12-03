@@ -50,12 +50,6 @@ public interface MemberDao {
 			""")
 	void increaseView(int id);
 	
-	@Update("""
-	        UPDATE `member`
-	        SET hearts = hearts + 1
-	        WHERE id = #{id}
-	        """)
-	void increaseHeart(int id);
 	
 	
 
