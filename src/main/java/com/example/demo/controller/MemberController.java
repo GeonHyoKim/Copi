@@ -3,6 +3,8 @@ package com.example.demo.controller;
 import java.io.IOException;
 import java.util.List;
 
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,7 +36,9 @@ public class MemberController {
 		this.picService = picService;
 		this.session = session;
 	}
-
+	
+	
+	//회원가입
 	@GetMapping("/usr/member/join")
 	public String join(Model model) {
 		Member loginedMember = (Member) session.getAttribute("loginedMember");
@@ -58,7 +62,9 @@ public class MemberController {
 		model.addAttribute("message", "회원가입 성공.");
 		return "/usr/home/success";
 	}
-
+	
+	
+	//로그인
 	@GetMapping("/usr/member/login")
 	public String login(Model model) {
 		Member loginedMember = (Member) session.getAttribute("loginedMember");
@@ -89,6 +95,8 @@ public class MemberController {
 		return "/usr/home/success";
 	}
 	
+	
+	//로그아웃
 	@GetMapping("/usr/member/logout")
 	public String logout(Model model) {
 
@@ -105,6 +113,8 @@ public class MemberController {
 		return "/usr/home/success";
 	}
 	
+	
+	//마이페이지
 	@GetMapping("/usr/member/myPage")
 	public String myPage(Model model) {
 		Member member = (Member) session.getAttribute("loginedMember");
@@ -121,6 +131,66 @@ public class MemberController {
 		return "usr/member/myPage";
 	}
 	
+	//프로필 이미지 가져오기
+	@GetMapping("/usr/member/getImage")
+	@ResponseBody
+	public Resource getImage(String pic) throws IOException {
+		
+		return new UrlResource("file:" + "C:/kgh/upload/" +  pic);
+	}
+	
+	
+	//수정
+	@GetMapping("/usr/member/modify")
+	public String modify(Model model, int id) {
+		Member member = (Member) session.getAttribute("loginedMember");
+		
+		if (member == null) {
+			model.addAttribute("message", "로그인 먼저 해주세요.");
+			return "/usr/home/fail";
+		}
+		
+		List<Pic> pics = picService.getPicById(member.getId()); 
+		
+		model.addAttribute("pics", pics);
+		model.addAttribute("member", member);
+		return "usr/member/modify";
+	}
+	
+	@PostMapping("/usr/member/doModify")
+	public String doModify(Model model, int id, String name, int age, String areaId,  MultipartFile pic ) throws IOException {
+		Member member = (Member) session.getAttribute("loginedMember");
+		
+		if (member == null) {
+			model.addAttribute("message", "로그인 먼저 해주세요.");
+			return "/usr/home/fail";
+		}
+		
+		memberService.modifyMember(id, name, age, areaId);
+		
+		if (!pic.isEmpty()) {
+	        picService.savePic(id, pic);
+	    }
+		
+		Member updatedMember = memberService.getMemberById(id);
+	    session.setAttribute("loginedMember", updatedMember);
+		
+		return "redirect:/usr/member/myPage?id=" + id;
+	}
+	
+	
+	//삭제
+	@GetMapping("/usr/member/picDelete")
+	public String picDelete(Model model, int id, int picId) {
+		
+		picService.picDelete(picId);
+		
+		return "redirect:/usr/member/modify?id=" + id;
+	}
+	
+	
+	
+	//회원 리스트
 	@GetMapping("/usr/member/list")
 	public String list(Model model) {
 		List<Member> members = memberService.getMembers();
@@ -129,6 +199,11 @@ public class MemberController {
 		return "/usr/member/list";
 	}
 	
+	
+	
+	
+	
+	//디테일
 	@GetMapping("/usr/member/detail")
 	public String detail(Model model, @RequestParam("id")int id) {
 		
@@ -144,6 +219,8 @@ public class MemberController {
 		return "/usr/member/detail";
 	}
 	
+	
+	//하트누르기
 	@GetMapping("/usr/heart/clickLikePoint")
 	@ResponseBody
 	public String clickLikePoint(@RequestParam int senderId, @RequestParam int receiverId, boolean likePointBtn) {
@@ -160,6 +237,8 @@ public class MemberController {
 	    return likeCount + ";좋아요 추가";
 	}
 	
+	
+	//하트 가져오기
 	@GetMapping("/usr/heart/getLikePoint")
 	@ResponseBody
 	public String getLikePoint(int receiverId) {

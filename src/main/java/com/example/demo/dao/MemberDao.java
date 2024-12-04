@@ -50,6 +50,16 @@ public interface MemberDao {
 			""")
 	void increaseView(int id);
 	
+	@Update("""
+			UPDATE `member`
+				SET updateDate = now()
+				, name = #{name}
+				, age = #{age}
+				, areaId = #{areaId}
+				WHERE id = #{id}
+			""")
+	void modifyMember(int id, String name, int age, String areaId);
+	
 	
 	
 

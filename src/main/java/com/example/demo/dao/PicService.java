@@ -29,12 +29,12 @@ public class PicService {
 	
 	public void savePic(int id, MultipartFile pic) throws IOException {
 	    if (pic != null && !pic.isEmpty()) {
-	        String fileName = saveFile(pic); // 파일 저장
-	        picDao.savePic(id, fileName); // DB에 파일 이름 저장
+	        String fileName = saveFile(pic);
+	        picDao.savePic(id, fileName); 
 	    }
 	}
 	
-    //사진 파일 저장
+	//v파일 추가
     private String saveFile(MultipartFile file) throws IOException {
         String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
         Path savePath = Paths.get(fileDir + File.separator + fileName);
@@ -50,9 +50,24 @@ public class PicService {
 	public List<Pic> getPicById(int id) {
 		return picDao.getPicById(id);
 	}
-    
-    
+	
+	
+	//v파일 삭제
+	public void picDelete(int picId) {
+		Pic pic = picDao.getPicByIdAndPicId(picId);
+		
+		if (pic != null) {
+	        String filePath = fileDir + File.separator + pic.getPic();
+	        File file = new File(filePath);
 
+	        if (file.exists()) {
+	            file.delete();
+	        }
+	    }
+		
+		picDao.picDelete(picId);
+	}
+	
 	
 }
 

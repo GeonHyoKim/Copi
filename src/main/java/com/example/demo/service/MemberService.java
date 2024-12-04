@@ -31,6 +31,9 @@ public class MemberService {
 	public void increaseView(int id) {
 		memberDao.increaseView(id);		
 	}
+	public void modifyMember(int id, String name, int age, String areaId) {
+		memberDao.modifyMember(id, name, age, areaId);
+	}
 	
 	
 

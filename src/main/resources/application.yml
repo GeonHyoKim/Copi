@@ -17,4 +17,4 @@ servlet:
     max-file-size: 10MB
 custom:
   file:
-   dir: C:/kgh/workspace/kgh/upload
+   dir: C:/kgh/upload
