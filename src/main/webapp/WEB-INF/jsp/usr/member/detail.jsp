@@ -63,23 +63,36 @@ const getLikePoint = function() {
 <section class="container mx-auto p-6 bg-gray-50 rounded-lg shadow-lg">
 	<h2 class="text-3xl font-bold text-pink-600 mb-8 text-center">회원
 		상세보기</h2>
-
+	<div class="bg-white p-6 rounded-lg shadow-md flex">
+	<div class="flex-shrink-0">
+			<div class="relative w-64">
+				<!-- 사진 출력 -->
+				<c:choose>
+					<c:when test="${not empty pics}">
+						<div id="photo-slider" class="relative overflow-hidden">
+							<div class="w-full">
+								<c:forEach var="pic" items="${pics}" varStatus="status">
+									<img src="/usr/member/getImage?pic=${pic.pic}" class="photo-slide ${status.index == 0 ? '' : 'hidden'} w-64 h-64 object-cover rounded">
+								</c:forEach>
+							</div>
+							<!-- 화살표 버튼 -->
+							<button id="prev-btn" class="absolute left-0 top-1/2 transform -translate-y-1/2 text-white px-2 py-1 rounded-full shadow">
+								&lt;
+							</button>
+							<button id="next-btn" class="absolute right-0 top-1/2 transform -translate-y-1/2 text-white px-2 py-1 rounded-full shadow">
+								&gt;
+							</button>
+						</div>
+					</c:when>
+					<c:otherwise>
+						<p class="text-center">등록된 사진이 없습니다.</p>
+					</c:otherwise>
+				</c:choose>
+			</div>
+		</div>
 	<div class="bg-white p-6 rounded-lg shadow-md">
 		<table class="table-auto w-full border-collapse">
 			<tbody>
-				<tr class="border-b">
-					<th class="px-4 py-2 bg-pink-100 text-gray-700 text-left w-1/3">회원
-						번호</th>
-					<td class="px-4 py-2 text-gray-800">${member.getId()}</td>
-				</tr>
-				<tr class="border-b">
-					<th class="px-4 py-2 bg-pink-100 text-gray-700 text-left">가입일</th>
-					<td class="px-4 py-2 text-gray-800">${member.getRegDate().substring(2, 16)}</td>
-				</tr>
-				<tr class="border-b">
-					<th class="px-4 py-2 bg-pink-100 text-gray-700 text-left">성별</th>
-					<td class="px-4 py-2 text-gray-800">${member.getSex()}</td>
-				</tr>
 				<tr class="border-b">
 					<th class="px-4 py-2 bg-pink-100 text-gray-700 text-left">이름</th>
 					<td class="px-4 py-2 text-gray-800">${member.getName()}</td>
@@ -88,10 +101,16 @@ const getLikePoint = function() {
 					<th class="px-4 py-2 bg-pink-100 text-gray-700 text-left">나이</th>
 					<td class="px-4 py-2 text-gray-800">${member.getAge()}</td>
 				</tr>
+				<tr class="border-b">
+					<th class="px-4 py-2 bg-pink-100 text-gray-700 text-left">성별</th>
+					<td class="px-4 py-2 text-gray-800">${member.getSex()}</td>
+				</tr>
+				
 				<tr>
 					<th class="px-4 py-2 bg-pink-100 text-gray-700 text-left">지역</th>
 					<td class="px-4 py-2 text-gray-800">${member.getAreaId()}</td>
 				</tr>
+				
 				<tr>
 					<th class="px-4 py-2 bg-pink-100 text-gray-700 text-left">하트
 						갯수</th>
@@ -108,7 +127,7 @@ const getLikePoint = function() {
 			</tbody>
 		</table>
 	</div>
-
+	</div>
 	<div class="mt-8 text-center">
 		<button onclick="history.back()"
 			class="bg-gray-600 hover:bg-gray-700 text-white font-bold px-6 py-3 rounded-full shadow-lg transition duration-300 mr-4">

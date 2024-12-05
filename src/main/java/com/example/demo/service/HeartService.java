@@ -1,16 +1,18 @@
 package com.example.demo.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.example.demo.dao.HeartDao;
 
 import dto.Heart;
+import dto.Member;
 
 @Service
 public class HeartService {
 	
 	private HeartDao heartDao;
-	
 	public HeartService(HeartDao heartDao) {
 		this.heartDao = heartDao;
 	}
@@ -33,4 +35,9 @@ public class HeartService {
 	public int getLikePointCnt(int receiverId) {
 		return heartDao.getLikePointCnt(receiverId);
 	}
+	
+	public List<Member> rankHeart3() {
+        return heartDao.getTopRankedMembers(3); // 하트 순으로 상위 3명의 멤버 반환
+    }
+	
 }

@@ -35,6 +35,32 @@ public class MemberService {
 		memberDao.modifyMember(id, name, age, areaId);
 	}
 	
+	public Member getNextMemberId(int currentId) {
+	    List<Member> allMembers = memberDao.getMembers();  // 모든 회원을 가져옴
+	    // currentId 이후의 실제 존재하는 ID를 찾음
+	    for (int i = 0; i < allMembers.size(); i++) {
+	        if (allMembers.get(i).getId() > currentId) {
+	            return allMembers.get(i);  // 다음 존재하는 ID를 반환
+	        }
+	    }
+	    return null;  // 더 이상 다음 ID가 없으면 현재 ID를 반환
+	}
+
+	public Member getPrevMemberId(int currentId) {
+	    List<Member> allMembers = memberDao.getMembers();  // 모든 회원을 가져옴
+	    // currentId 이전의 실제 존재하는 ID를 찾음
+	    for (int i = allMembers.size() - 1; i >= 0; i--) {
+	        if (allMembers.get(i).getId() < currentId) {
+	            return allMembers.get(i);  // 이전 존재하는 ID를 반환
+	        }
+	    }
+	    return null;  // 더 이상 이전 ID가 없으면 현재 ID를 반환
+	}
 	
+	public List<Member> getRankedMembers(int limit) {
+        return memberDao.getRankedMembers(limit);
+    }
+
+
 
 }

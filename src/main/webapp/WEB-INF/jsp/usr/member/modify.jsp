@@ -32,7 +32,7 @@
 				<tr>  	
 					<td class="px-4 py-2 border-b font-medium">나이</td>
 					<td class="px-4 py-2 border-b">${member.age}</td>
-					<td><input id="age" name="age" type="text" placeholder="변경할 나이을 입력해주세요" value="${member.getAge() }"/></td>
+					<td><input id="age" name="age" type="text" placeholder="변경할 나이를 입력해주세요" value="${member.getAge() }"/></td>
 				</tr>
 				<tr>
 					<td class="px-4 py-2 border-b font-medium">성별</td>
@@ -42,7 +42,7 @@
 				<tr>
 					<td class="px-4 py-2 border-b font-medium">지역</td>
 					<td class="px-4 py-2 border-b">${member.areaId}</td>
-					<td><input id="areaId" name="areaId" type="text" placeholder="변경할 지역	을 입력해주세요" value="${member.getAreaId() }"/></td>
+					<td><input id="areaId" name="areaId" type="text" placeholder="변경할 지역을 입력해주세요" value="${member.getAreaId() }"/></td>
 				</tr>
 				<tr>
 					<td class="px-4 py-2 border-b font-medium">사진</td>
@@ -51,16 +51,14 @@
 						    <c:when test="${not empty pics}">
 						        <c:forEach var="pic" items="${pics}">
 						            <div class="avatar">
-										<div class="w-24 rounded">
-										 	<img src="/usr/member/getImage?pic=${pic.pic}" />
+										<div class="w-24 rounded mb-3">
+										 	<img src="/usr/member/getImage?pic=${pic.pic}" alt="사진" />
 										</div>
+										<!-- 사진 삭제 버튼 -->
+										<a href="/usr/member/picDelete?id=${member.getId() }&picId=${pic.getId()}" class="text-red-500 hover:text-red-700 font-semibold">
+											삭제
+										</a>
 									</div>
-<!-- 						            <form action="/usr/member/picDelete" method="get"> -->
-<%-- 						                <input type="hidden" name="id" value="${member.getId()}" /> --%>
-<%-- 						                <input type="hidden" name="picId" value="${pic.getId()}" /> --%>
-						                <a href="/usr/member/picDelete?id=${member.getId() }&picId=${pic.getId()}">삭제</a>
-<!-- 						                <button>삭제</button> -->
-<!-- 						            </form> -->
 						        </c:forEach>
 						    </c:when>
 						    <c:otherwise>
@@ -68,22 +66,23 @@
 						    </c:otherwise>
 						</c:choose>
 					</td>
-					<td><input type="file" name="pic" /></td>	
+					<td><input type="file" name="pic" class="border px-3 py-2 rounded-md" /></td>	
 				</tr>
 			</tbody>
 		</table>
-			<button>수정하기</button>
-		</form>
+		
+		<!-- 수정하기 버튼 -->
+		<div class="mt-6 flex justify-between">
+			<button type="submit" class="bg-pink-600 text-white font-bold px-6 py-3 rounded-full shadow-lg hover:bg-pink-700 transition duration-300">
+				수정하기
+			</button>
+			<!-- 뒤로가기 버튼 -->
+			<button type="button" onclick="history.back()" class="bg-gray-600 hover:bg-gray-700 text-white font-bold px-6 py-3 rounded-full shadow-lg transition duration-300">
+				뒤로가기
+			</button>
+		</div>
+	</form>
 	</div>
-	
-			
-	
-	<div class="mt-8 text-center">
-		<button onclick="history.back()"
-			class="bg-gray-600 hover:bg-gray-700 text-white font-bold px-6 py-3 rounded-full shadow-lg transition duration-300 mr-4">
-			뒤로가기</button>
-			
-	</div>
-	
 </section>
+
 <%@ include file="/WEB-INF/jsp/common/footer.jsp" %>

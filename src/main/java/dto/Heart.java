@@ -8,8 +8,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Heart {
-	private int id;
-	private int senderId;
-	private int receiverId;
-	private int point;
+	private Integer id;
+	private Integer senderId;
+	private Integer receiverId;
+	private Integer point;
 }

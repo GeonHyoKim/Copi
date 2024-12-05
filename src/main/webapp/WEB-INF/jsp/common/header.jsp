@@ -34,7 +34,6 @@
                 href="${pageContext.request.contextPath}/">LoveMatch</a>
         </div>
         <ul class="flex space-x-6">
-            <!-- 로그인 여부 확인 후, 버튼 다르게 출력 -->
             <c:if test="${empty loginedMember}">
                 <li class="hover:underline hover:text-pink-600 transition duration-300">
                     <a class="px-3 py-1" href="${pageContext.request.contextPath}/usr/member/join">JOIN</a>
@@ -52,7 +51,7 @@
                 </li>
             </c:if>
             <li class="hover:underline hover:text-pink-600 transition duration-300">
-                <a class="px-3 py-1" href="${pageContext.request.contextPath}/usr/member/list">List</a>
+                <a class="px-3 py-1" href="${pageContext.request.contextPath}/usr/member/heartRank">RANK</a>
             </li>
         </ul>
     </header>
