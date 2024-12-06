@@ -2,7 +2,6 @@
 html, body {
     height: 100%; /* 전체 화면 높이를 100%로 설정 */
     margin: 0;    /* 기본 여백을 없애기 */
-    background: linear-gradient(to bottom right, #ffe4e6, #ffe0b2); /* 배경 색상 */
     font-family: 'Poppins', sans-serif;
 }
 
@@ -277,3 +276,5 @@ html, body {
 .fa-solid {
     color: red; /* 하트 색상을 빨간색으로 변경 */
 }
+
+

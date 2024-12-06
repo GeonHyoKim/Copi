@@ -8,6 +8,6 @@
 </head>
 <body>
 	<div>${message}</div>
-	<a href="/usr/home/main">홈으로 가기</a>
+	<a href="/usr/home/home">홈으로 가기</a>
 </body>
 </html>

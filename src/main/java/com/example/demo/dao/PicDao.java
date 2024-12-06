@@ -60,6 +60,12 @@ public interface PicDao {
 			WHERE memberId = #{memberId}
 			LIMIT 1
 			""")
-	Pic getRepresentativePicByMemberId(@Param("memberId") int memberId);
+	Pic getPicByMemberId(@Param("memberId") int memberId);
+	
+	@Select("""
+			SELECT * FROM pic
+			""")
+	List<Pic> getPics();
+	
 
 }

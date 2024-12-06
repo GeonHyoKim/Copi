@@ -27,29 +27,45 @@
 	});
 </script>
 
+<style>
+#photo-slider {
+    height: 300px; /* 고정된 높이 설정 */
+    position: relative;
+    overflow: hidden;
+}
+
+.photo-slide {
+    width: 100%; /* 너비를 부모 요소에 맞게 설정 */
+    height: 100%; /* 부모의 높이에 맞게 설정 */
+    object-fit: cover; /* 이미지를 꽉 차게 하되 비율을 유지하면서 잘리도록 설정 */
+    object-position: center center; /* 이미지의 중심을 기준으로 조정 */
+}
+</style>
 
 <section class="container mx-auto p-4">
+	<h2 class="text-3xl font-semibold text-pink-600 mb-6">회원 정보</h2>
 	<!-- 회원 정보 -->
 	<div class="bg-white p-6 rounded-lg shadow-md flex">
 		<!-- 사진 슬라이더 -->
-		<div class="flex-shrink-0">
-			<div class="relative w-64">
+		<div class="flex-shrink-0 w-64">
+			<div class="relative w-full h-full">
 				<!-- 사진 출력 -->
 				<c:choose>
 					<c:when test="${not empty pics}">
-						<div id="photo-slider" class="relative overflow-hidden">
+						<div id="photo-slider" class="relative overflow-hidden h-full">
 							<div class="w-full">
 								<c:forEach var="pic" items="${pics}" varStatus="status">
-									<img src="/usr/member/getImage?pic=${pic.pic}" class="photo-slide ${status.index == 0 ? '' : 'hidden'} w-64 h-64 object-cover rounded">
+									<img src="/usr/member/getImage?pic=${pic.pic}"
+										class="photo-slide ${status.index == 0 ? '' : 'hidden'} w-full h-full object-cover rounded">
 								</c:forEach>
 							</div>
 							<!-- 화살표 버튼 -->
-							<button id="prev-btn" class="absolute left-0 top-1/2 transform -translate-y-1/2 text-white px-2 py-1 rounded-full shadow">
-								&lt;
-							</button>
-							<button id="next-btn" class="absolute right-0 top-1/2 transform -translate-y-1/2 text-white px-2 py-1 rounded-full shadow">
-								&gt;
-							</button>
+							<button id="prev-btn"
+								class="absolute left-0 top-1/2 transform -translate-y-1/2 text-white px-2 py-1 rounded-full shadow">
+								&lt;</button>
+							<button id="next-btn"
+								class="absolute right-0 top-1/2 transform -translate-y-1/2 text-white px-2 py-1 rounded-full shadow">
+								&gt;</button>
 						</div>
 					</c:when>
 					<c:otherwise>
@@ -60,8 +76,7 @@
 		</div>
 
 		<!-- 회원 정보 -->
-		<div class="ml-8 flex-grow">
-			<h2 class="text-3xl font-semibold text-pink-600 mb-6">회원 정보</h2>
+		<div class="ml-8 flex-grow flex flex-col justify-between">
 			<table class="table-auto w-full text-left border-collapse">
 				<thead>
 					<tr>
@@ -95,10 +110,12 @@
 						<td class="px-4 py-2 text-gray-800">${member.getRegDate().substring(2, 16)}</td>
 					</tr>
 					<tr class="border-b">
-						<th class="px-4 py-2 bg-pink-100 text-gray-700 text-left">하트 갯수</th>
-						<td><span id="likeCnt" class="px-4 py-2 border-b" >${likeCount}</span> <!-- 좋아요 개수 표시 --></td>
+						<th class="px-4 py-2 bg-pink-100 text-gray-700 text-left">하트
+							갯수</th>
+						<td><span id="likeCnt" class="px-4 py-2 border-b">${likeCount}</span>
+							<!-- 좋아요 개수 표시 --></td>
 					</tr>
-					
+
 				</tbody>
 			</table>
 		</div>
@@ -112,14 +129,13 @@
 	</div>
 </section>
 
-
-	
-
-	<div class="mt-8 text-center">
-		<button onclick="history.back()"
-			class="bg-gray-600 hover:bg-gray-700 text-white font-bold px-6 py-3 rounded-full shadow-lg transition duration-300 mr-4">
-			뒤로가기</button>
-		<a href="/usr/member/modify?id=${member.getId() }" class="bg-gray-600 hover:bg-gray-700 text-white font-bold px-6 py-3 rounded-full shadow-lg transition duration-300 mr-4">회원 정보 수정하기 </a>
-	</div>
+<div class="mt-8 text-center">
+	<button onclick="history.back()"
+		class="bg-gray-600 hover:bg-gray-700 text-white font-bold px-6 py-3 rounded-full shadow-lg transition duration-300 mr-4">
+		뒤로가기</button>
+	<a href="/usr/member/modify?id=${member.getId() }"
+		class="bg-pink-600 hover:bg-pink-700 text-white font-bold px-6 py-3 rounded-full shadow-lg transition duration-300 mr-4">
+		회원 정보 수정하기 </a>
+</div>
 
 <%@ include file="/WEB-INF/jsp/common/footer.jsp"%>

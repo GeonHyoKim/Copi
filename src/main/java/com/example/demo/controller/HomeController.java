@@ -71,7 +71,13 @@ public class HomeController {
 
 	@GetMapping("/")
 	public String showRoot() {
-		return "redirect:/usr/home/main";
+		return "redirect:/usr/home/home";
 	}
+	
+	@GetMapping("/usr/home/home")
+	public String home() {
+		return "/usr/home/home";
+	}
+	
 
 }

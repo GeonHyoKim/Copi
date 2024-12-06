@@ -44,17 +44,17 @@ public interface HeartDao {
 	int getLikePointCnt(int receiverId);
 
 	@Select("""
-			SELECT m.*
-			FROM member m
-			LEFT JOIN heart h ON m.id = h.memberId
-			GROUP BY m.id
-			ORDER BY COUNT(h.id) DESC
-			LIMIT #{limit}
-			""")
+			SELECT m.* FROM heart AS h
+				INNER JOIN `member` AS m
+				ON m.id = h.receiverId
+				GROUP BY receiverId
+				ORDER BY COUNT(`receiverId`) DESC
+				LIMIT #{limit}
+					""")
 	List<Member> getTopRankedMembers(@Param("limit") int limit);
 
 	@Select("""
-			    SELECT m.*, COUNT(h.id) AS heartCount
+			SELECT m.*, COUNT(h.id) AS heartCount
 			    FROM member m
 			    LEFT JOIN heart h ON m.id = h.receiverId
 			    GROUP BY m.id

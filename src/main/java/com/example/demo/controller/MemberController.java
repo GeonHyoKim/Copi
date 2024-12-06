@@ -62,55 +62,47 @@ public class MemberController {
 		}
 
 		model.addAttribute("message", "회원가입 성공.");
-		return "/usr/home/success";
+		return "/usr/member/join";
 	}
 
 	// 로그인
 	@GetMapping("/usr/member/login")
 	public String login(Model model) {
-		Member loginedMember = (Member) session.getAttribute("loginedMember");
+	    Member loginedMember = (Member) session.getAttribute("loginedMember");
 
-		if (loginedMember != null) {
-			model.addAttribute("message", "로그인이 이미 되어있습니다.");
-			return "/usr/home/fail";
-		}
-		return "/usr/member/login";
+	    if (loginedMember != null) {
+	        model.addAttribute("message", "로그인이 이미 되어있습니다.");
+	        return "/usr/home/fail";
+	    }
+	    return "/usr/member/login";
 	}
 
 	@PostMapping("/usr/member/doLogin")
 	public String doLogin(Model model, String loginId, String loginPw) {
-		Member member = memberService.getMemberId(loginId);
+	    Member member = memberService.getMemberId(loginId);
 
-		if (member == null) {
-			model.addAttribute("message", "없는 아이디입니다.");
-			return "/usr/home/fail";
-		}
+	    if (member == null) {
+	        model.addAttribute("message", "없는 아이디입니다.");
+	        return "/usr/member/login"; // 로그인 페이지에서 메시지를 표시하도록
+	    }
 
-		if (!member.getLoginPw().equals(loginPw)) {
-			model.addAttribute("message", "비밀번호를 확인해주세요");
-			return "/usr/home/fail";
-		}
-		session.setAttribute("loginedMember", member);
+	    if (!member.getLoginPw().equals(loginPw)) {
+	        model.addAttribute("message", "비밀번호를 확인해주세요");
+	        return "/usr/member/login"; // 로그인 페이지에서 메시지를 표시하도록
+	    }
+	    session.setAttribute("loginedMember", member);
 
-		model.addAttribute("message", "로그인 성공!");
-		return "/usr/home/success";
+	    model.addAttribute("message", "로그인 성공!");
+	    return "redirect:/usr/home/home"; // 로그인 후 리다이렉트할 페이지
 	}
+
 
 	// 로그아웃
 	@GetMapping("/usr/member/logout")
 	public String logout(Model model) {
-
-		Member loginedMember = (Member) session.getAttribute("loginedMember");
-
-		if (loginedMember == null) {
-			model.addAttribute("message", "로그인이 안 되어있습니다.");
-			return "/usr/home/fail";
-		}
-
 		session.invalidate();
 
-		model.addAttribute("message", "로그아웃 성공!");
-		return "/usr/home/success";
+		return "redirect:/usr/home/home";
 	}
 
 	// 마이페이지
@@ -191,12 +183,24 @@ public class MemberController {
 
 	// 회원 리스트
 	@GetMapping("/usr/member/list")
-	public String list(Model model) {
-		List<Member> members = memberService.getMembers();
+	public String list(Model model, @RequestParam(defaultValue = "전체") String sex) {
+	    List<Member> members = memberService.getMembers();
+	    
+	    if ("전체".equals(sex)) {
+	        members = memberService.getMembers();
+	    } else {
+	        members = memberService.getMembersBySex(sex);
+	    }
+	    
+	    for (Member member : members) {
+	        Pic pic = picService.getPicByMemberId(member.getId());
+	        member.setPic(pic);
+	    }
 
-		model.addAttribute("members", members);
-		return "/usr/member/list";
+	    model.addAttribute("members", members);
+	    return "/usr/member/list";
 	}
+
 
 	// 디테일
 	@GetMapping("/usr/member/detail")
@@ -258,41 +262,66 @@ public class MemberController {
 	}
 	
 	
-	@GetMapping("/usr/member/heartRank")
-	public String heartRank(Model model) {
-		List<Member> rankMembers = heartService.rankHeart3();
-	    List<Pic> pics = new ArrayList<>();
+	@GetMapping("/usr/member/rank")
+	public String rank(Model model) {
+		//하트 랭커 
+		List<Member> heartRankers = heartService.rankHeart3();
+	    List<Pic> heartRankerPics = new ArrayList<>();
 
-	    for (int i = 0; i < rankMembers.size(); i++) {
-	        pics.add(picService.getPicByRank(rankMembers.get(i).getId()));
+	    for (int i = 0; i < heartRankers.size(); i++) {
+	    	heartRankerPics.add(picService.getPicByRank(heartRankers.get(i).getId()));
 	    }
 
 	    // 1등, 2등, 3등 멤버와 사진 분리
-	    Member firstMember = rankMembers.size() > 0 ? rankMembers.get(0) : null;
-	    Member secondMember = rankMembers.size() > 1 ? rankMembers.get(1) : null;
-	    Member thirdMember = rankMembers.size() > 2 ? rankMembers.get(2) : null;
+	    Member firstHeartRanker = heartRankers.size() > 0 ? heartRankers.get(0) : null;
+	    Member secondHeartRanker = heartRankers.size() > 1 ? heartRankers.get(1) : null;
+	    Member thirdHeartRanker = heartRankers.size() > 2 ? heartRankers.get(2) : null;
 
-	    Pic firstPic = pics.size() > 0 ? pics.get(0) : null;
-	    Pic secondPic = pics.size() > 1 ? pics.get(1) : null;
-	    Pic thirdPic = pics.size() > 2 ? pics.get(2) : null;
+	    Pic HRFirstPic = heartRankerPics.size() > 0 ? heartRankerPics.get(0) : null;
+	    Pic HRSecondPic = heartRankerPics.size() > 1 ? heartRankerPics.get(1) : null;
+	    Pic HRThirdPic = heartRankerPics.size() > 2 ? heartRankerPics.get(2) : null;
 
-	    model.addAttribute("firstMember", firstMember);
-	    model.addAttribute("secondMember", secondMember);
-	    model.addAttribute("thirdMember", thirdMember);
+	    model.addAttribute("firstHeartRanker", firstHeartRanker);
+	    model.addAttribute("secondHeartRanker", secondHeartRanker);
+	    model.addAttribute("thirdHeartRanker", thirdHeartRanker);
 
-	    model.addAttribute("firstPic", firstPic);
-	    model.addAttribute("secondPic", secondPic);
-	    model.addAttribute("thirdPic", thirdPic);
+	    model.addAttribute("HRFirstPic", HRFirstPic);
+	    model.addAttribute("HRSecondPic", HRSecondPic);
+	    model.addAttribute("HRThirdPic", HRThirdPic);
 
-	    int like1stCount = heartService.getLikePointCnt(firstMember.getId());
-	    int like2edCount = heartService.getLikePointCnt(secondMember.getId());
-	    int like3rdCount = heartService.getLikePointCnt(thirdMember.getId());
+	    int like1stCount = heartService.getLikePointCnt(firstHeartRanker.getId());
+	    int like2edCount = heartService.getLikePointCnt(secondHeartRanker.getId());
+	    int like3rdCount = heartService.getLikePointCnt(thirdHeartRanker.getId());
 	    
 	    model.addAttribute("like1stCount", like1stCount);
 	    model.addAttribute("like2edCount", like2edCount);
 	    model.addAttribute("like3rdCount", like3rdCount);
+	    
+	    //조회수 랭커
+	    List<Member> viewsRankers = memberService.viewRanker();
+	    List<Pic> viewRankerPics = new ArrayList<>();
+	    
+	    for (int i = 0; i < viewsRankers.size(); i++) {
+	    	viewRankerPics.add(picService.getPicByRank(viewsRankers.get(i).getId()));
+	    }
+	    
+	    Member firstviewsRanker = viewsRankers.size() > 0 ? viewsRankers.get(0) : null;
+	    Member secondviewsRanker = viewsRankers.size() > 1 ? viewsRankers.get(1) : null;
+	    Member thirdviewsRanker = viewsRankers.size() > 2 ? viewsRankers.get(2) : null;
+	    
+	    Pic VRFirstPic = viewRankerPics.size() > 0 ? viewRankerPics.get(0) : null;
+	    Pic VRSecondPic = viewRankerPics.size() > 1 ? viewRankerPics.get(1) : null;
+	    Pic VRThirdPic = viewRankerPics.size() > 2 ? viewRankerPics.get(2) : null;
+	    
+	    model.addAttribute("firstviewsRanker", firstviewsRanker);
+	    model.addAttribute("secondviewsRanker", secondviewsRanker);
+	    model.addAttribute("thirdviewsRanker", thirdviewsRanker);
 
-	    return "/usr/member/heartRank";
+	    model.addAttribute("VRFirstPic", VRFirstPic);
+	    model.addAttribute("VRSecondPic", VRSecondPic);
+	    model.addAttribute("VRThirdPic", VRThirdPic);
+	    
+	    return "/usr/member/rank";
 	}
 	
 

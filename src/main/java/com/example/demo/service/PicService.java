@@ -81,7 +81,25 @@ public class PicService {
 	}
 
 	public Pic getPicByRank(int memberId) {
-		return picDao.getRepresentativePicByMemberId(memberId);
+		return picDao.getPicByMemberId(memberId);
 	}
+
+	public List<Pic> getPics() {
+		return picDao.getPics();
+	}
+
+	public Pic getPicByMemberId(int id) {
+		return picDao.getPicByMemberId(id);
+	}
+
+	public void saveArticlePic(int id, MultipartFile pic) throws IOException {
+		if (pic != null && !pic.isEmpty()) {
+			String fileName = saveFile(pic);
+			picDao.savePic(id, fileName);
+		}
+	}
+	
+	
+	
 
 }

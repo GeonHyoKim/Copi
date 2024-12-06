@@ -63,12 +63,25 @@ public interface MemberDao {
 
 	@Select("""
 			SELECT m.*
-			FROM member m
+			FROM `member` m
 			LEFT JOIN heart h ON m.id = h.memberId
 			GROUP BY m.id
 			ORDER BY COUNT(h.id) DESC
 			LIMIT #{limit}
 			""")
 	List<Member> getRankedMembers(@Param("limit") int limit);
+
+	@Select("""
+			SELECT * FROM `member`
+				ORDER BY views DESC
+				LIMIT #{limit}
+			""")
+	List<Member> viewRanker(@Param("limit") int limit);
+
+	@Select("""
+			    SELECT * FROM `member`
+			    WHERE sex = #{sex}
+			""")
+	List<Member> getMembersBySex(@Param("sex") String sex);
 
 }
