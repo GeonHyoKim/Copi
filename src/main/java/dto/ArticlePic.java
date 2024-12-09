@@ -7,10 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Heart {
-	private Integer id;
-	private Integer senderId;
-	private Integer receiverId;
-	private Integer point;
-	private Integer code;
+public class ArticlePic {
+	private int id;
+	private int articleId;
+	private String pic;
 }

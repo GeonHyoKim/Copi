@@ -14,8 +14,8 @@ public class Article {
 	private int memberId;
 	private String title;
 	private String body;
-	private String pic;
 	private int views;
 	private int likes; 
-	
+	private ArticlePic articlePic;
+	private String writerName;
 }

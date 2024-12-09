@@ -55,7 +55,7 @@
 						<div id="photo-slider" class="relative overflow-hidden h-full">
 							<div class="w-full">
 								<c:forEach var="pic" items="${pics}" varStatus="status">
-									<img src="/usr/member/getImage?pic=${pic.pic}"
+									<img src="/usr/pic/getImage?pic=${pic.pic}"
 										class="photo-slide ${status.index == 0 ? '' : 'hidden'} w-full h-full object-cover rounded">
 								</c:forEach>
 							</div>

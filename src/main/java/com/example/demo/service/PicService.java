@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.dao.PicDao;
 
+import dto.ArticlePic;
 import dto.Pic;
 
 @Service
@@ -35,7 +36,7 @@ public class PicService {
 		}
 	}
 
-	// v파일 추가
+	// member or article 사진 추가
 	private String saveFile(MultipartFile file) throws IOException {
 		String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
 		Path savePath = Paths.get(fileDir + File.separator + fileName);
@@ -51,6 +52,7 @@ public class PicService {
 	public List<Pic> getPicById(int id) {
 		return picDao.getPicById(id);
 	}
+	
 
 	// v파일 삭제
 	public void picDelete(int picId) {
@@ -77,7 +79,7 @@ public class PicService {
 	}
 
 	public Pic getPicByIdAndPicId(int picId) {
-		return picDao.getPicByIdAndPicId(picId); // PicDao에서 정의한 메서드를 호출
+		return picDao.getPicByIdAndPicId(picId);
 	}
 
 	public Pic getPicByRank(int memberId) {
@@ -92,11 +94,21 @@ public class PicService {
 		return picDao.getPicByMemberId(id);
 	}
 
-	public void saveArticlePic(int id, MultipartFile pic) throws IOException {
-		if (pic != null && !pic.isEmpty()) {
-			String fileName = saveFile(pic);
-			picDao.savePic(id, fileName);
-		}
+	public void saveArticlePic(int articleId, MultipartFile[] articlePics) throws IOException {
+		for (MultipartFile articlePic : articlePics) {
+	        if (articlePic != null && !articlePic.isEmpty()) {
+	            String fileName = saveFile(articlePic);
+	            picDao.saveArticlePic(articleId, fileName);  // 여러 개의 파일을 저장
+	        }
+	    }
+	}
+
+	public ArticlePic getPicByArticleId(int articleId) {
+		return picDao.getPicByArticleId(articleId);
+	}
+
+	public List<ArticlePic> getArticlePicById(int id) {
+		return picDao.getArticlePicById(id);
 	}
 	
 	

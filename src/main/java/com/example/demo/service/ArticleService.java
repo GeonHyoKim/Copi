@@ -17,12 +17,22 @@ public class ArticleService {
 		this.articleDao = articleDao;
 	}
 
-	public void writeArticle(int id, String title, String body, String pic) {
-		articleDao.writeArticle(id, title, body, pic);
+	public int writeArticle(int id, String title, String body) {
+		articleDao.writeArticle(id, title, body);
+		
+		return articleDao.getLastInsertedArticleId();
 	}
 
 	public List<Article> getArticles() {
 		return articleDao.getArticles();
+	}
+
+	public Article getArticleById(int id) {
+		return articleDao.getArticleById(id);
+	}
+
+	public void increaseView(int id) {
+		articleDao.increaseView(id);
 	}
 
 }

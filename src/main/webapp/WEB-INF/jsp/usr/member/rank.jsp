@@ -143,7 +143,7 @@ body {
 			<c:choose>
 				<c:when test="${not empty HRFirstPic}">
 					<a href="/usr/member/detail?id=${firstHeartRanker.id}"> <img
-						src="/usr/member/getImage?pic=${HRFirstPic.pic}" class="member-pic">
+						src="/usr/pic/getImage?pic=${HRFirstPic.pic}" class="member-pic">
 					</a>
 				</c:when>
 				<c:otherwise>
@@ -168,7 +168,7 @@ body {
 			<c:choose>
 				<c:when test="${not empty HRSecondPic}">
 					<a href="/usr/member/detail?id=${secondHeartRanker.id}"> <img
-						src="/usr/member/getImage?pic=${HRSecondPic.pic}" class="member-pic">
+						src="/usr/pic/getImage?pic=${HRSecondPic.pic}" class="member-pic">
 					</a>
 				</c:when>
 				<c:otherwise>
@@ -193,7 +193,7 @@ body {
 			<c:choose>
 				<c:when test="${not empty HRThirdPic}">
 					<a href="/usr/member/detail?id=${thirdHeartRanker.id}"> <img
-						src="/usr/member/getImage?pic=${HRThirdPic.pic}" class="member-pic">
+						src="/usr/pic/getImage?pic=${HRThirdPic.pic}" class="member-pic">
 					</a>
 				</c:when>
 				<c:otherwise>
@@ -222,7 +222,7 @@ body {
 			<c:choose>
 				<c:when test="${not empty VRFirstPic}">
 					<a href="/usr/member/detail?id=${firstviewsRanker.id}"> <img
-						src="/usr/member/getImage?pic=${VRFirstPic.pic}" class="member-pic">
+						src="/usr/pic/getImage?pic=${VRFirstPic.pic}" class="member-pic">
 					</a>
 				</c:when>
 				<c:otherwise>
@@ -245,7 +245,7 @@ body {
 			<c:choose>
 				<c:when test="${not empty VRSecondPic}">
 					<a href="/usr/member/detail?id=${secondviewsRanker.id}"> <img
-						src="/usr/member/getImage?pic=${VRSecondPic.pic}" class="member-pic">
+						src="/usr/pic/getImage?pic=${VRSecondPic.pic}" class="member-pic">
 					</a>
 				</c:when>
 				<c:otherwise>
@@ -268,7 +268,7 @@ body {
 			<c:choose>
 				<c:when test="${not empty VRThirdPic}">
 					<a href="/usr/member/detail?id=${thirdviewsRanker.id}"> <img
-						src="/usr/member/getImage?pic=${VRThirdPic.pic}" class="member-pic">
+						src="/usr/pic/getImage?pic=${VRThirdPic.pic}" class="member-pic">
 					</a>
 				</c:when>
 				<c:otherwise>

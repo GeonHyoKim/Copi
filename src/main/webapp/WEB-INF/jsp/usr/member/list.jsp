@@ -93,14 +93,13 @@
 </div>
 
 
-<!-- 회원 리스트 -->
 <div class="members-container" id="membersContainer">
     <c:forEach var="member" items="${members}">
         <div class="member-card" data-sex="${member.sex}">
             <a href="/usr/member/detail?id=${member.id}">
                 <c:choose>
                     <c:when test="${not empty member.pic}">
-                        <img src="/usr/member/getImage?pic=${member.pic.pic}" class="member-pic" />
+                        <img src="/usr/pic/getImage?pic=${member.pic.pic}" class="member-pic" />
                     </c:when>
                     <c:otherwise>
                         <div class="member-pic bg-gray-200"></div>

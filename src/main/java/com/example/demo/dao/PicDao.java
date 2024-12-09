@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
+import dto.ArticlePic;
 import dto.Pic;
 
 @Mapper
@@ -22,7 +23,7 @@ public interface PicDao {
 
 	@Select("""
 			SELECT * FROM `pic`
-				WHERE memberId = #{id}
+				WHERE memberId = #{id} 
 			""")
 	List<Pic> getPicById(int id);
 
@@ -66,6 +67,28 @@ public interface PicDao {
 			SELECT * FROM pic
 			""")
 	List<Pic> getPics();
+	
+	@Select("""
+			SELECT *
+			FROM articlePic
+			WHERE articleId = #{articleId}
+			LIMIT 1
+			""")
+	ArticlePic getPicByArticleId(int articleId);
+	
+	@Select("""
+			SELECT * FROM articlePic
+				where articleId = #{articleId}
+				ORDER BY id DESC
+			""")
+	List<ArticlePic> getArticlePicById(int articleId);
+	
+	@Insert("""
+			INSERT INTO `articlePic`
+				SET articleId = #{articleId}
+				, pic = #{fileName}
+			""")
+	void saveArticlePic(int articleId, String fileName);
 	
 
 }
