@@ -27,12 +27,12 @@ let removedImagesList = [];
 		form.submit();
 	};
 
-	function removeExistingImage(PicId) {
-		console.log("Trying to remove image with ID: " + PicId); // 전달된 ID 확인
+	function removeExistingImage(articlePicId) {
+		console.log("Trying to remove image with ID: " + articlePicId); // 전달된 ID 확인
 
 		// data-pic-id 속성을 사용하여 이미지를 찾습니다.
 		const imageContainer = document
-				.querySelector(`[data-pic-id="\${PicId}"]`);
+				.querySelector(`[data-pic-id="\${articlePicId}"]`);
 
 		console.log("Image container:", imageContainer); // 찾은 요소 출력
 
@@ -41,13 +41,13 @@ let removedImagesList = [];
 			imageContainer.remove(); // 이미지 삭제
 			console.log("Image removed");
 			
-			removedImagesList.push(PicId); // List에 ID 추가
+			removedImagesList.push(articlePicId); // List에 ID 추가
 			
 			// 삭제된 이미지를 추적하는 input 업데이트
 			const removedImagesInput = document.getElementById('removedImages');
 			let currentRemovedImages = removedImagesInput.value;
 			currentRemovedImages = currentRemovedImages ? currentRemovedImages
-					+ ',' + PicId : PicId;
+					+ ',' + articlePicId : articlePicId;
 			removedImagesInput.value = currentRemovedImages;
 		} else {
 			console.log("Image container not found!");
@@ -123,7 +123,7 @@ let removedImagesList = [];
 		}
 
 		// 이미지 업로드 이벤트 처리
-		const uploadButton = document.getElementById('newPic');
+		const uploadButton = document.getElementById('newArticlePic');
 		uploadButton.addEventListener('change', previewImage);
 	});
 </script>
@@ -205,10 +205,10 @@ let removedImagesList = [];
 							<!-- 새로운 사진 업로드 -->
 							<div id="newImageUploadContainer"
 								class="flex items-center space-x-4">
-								<label for="newPic" id="uploadButton"
+								<label for="newArticlePic" id="uploadButton"
 									class="cursor-pointer"> <img src="/upload/image.png"
 									alt="파일 선택" class="w-32 h-32">
-								</label> <input type="file" name="pics" id="newPic"
+								</label> <input type="file" name="articlePics" id="newArticlePic"
 									class="hidden" onchange="previewImage(event)">
 							</div>
 						</td>

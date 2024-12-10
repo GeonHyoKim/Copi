@@ -2,6 +2,7 @@ package com.example.demo.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -43,5 +44,20 @@ public interface ArticleDao {
 				WHERE id = #{id}
 			""")
 	void increaseView(int id);
+	
+	@Delete("""
+			DELETE FROM article
+				WHERE id = #{id}
+			""")
+	void deleteArticle(int id);
+	
+	@Update("""
+			UPDATE article
+				SET updateDate = NOW()
+				, title = #{title}
+				, body = #{body}
+				WHERE id = #{id}
+			""")
+	void modifyArticle(int id, String title, String body);
 	
 }

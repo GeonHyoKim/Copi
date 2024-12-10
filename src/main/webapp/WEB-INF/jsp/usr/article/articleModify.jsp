@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="jakarta.tags.core" prefix="c"%>
-<c:set var="pageTitle" value="회원정보 수정" />
 <%@ include file="/WEB-INF/jsp/common/header.jsp"%>
 
 <script>
@@ -27,12 +26,12 @@ let removedImagesList = [];
 		form.submit();
 	};
 
-	function removeExistingImage(PicId) {
-		console.log("Trying to remove image with ID: " + PicId); // 전달된 ID 확인
+	function removeExistingImage(articlePicId) {
+		console.log("Trying to remove image with ID: " + articlePicId); // 전달된 ID 확인
 
 		// data-pic-id 속성을 사용하여 이미지를 찾습니다.
 		const imageContainer = document
-				.querySelector(`[data-pic-id="\${PicId}"]`);
+				.querySelector(`[data-pic-id="\${articlePicId}"]`);
 
 		console.log("Image container:", imageContainer); // 찾은 요소 출력
 
@@ -41,13 +40,13 @@ let removedImagesList = [];
 			imageContainer.remove(); // 이미지 삭제
 			console.log("Image removed");
 			
-			removedImagesList.push(PicId); // List에 ID 추가
+			removedImagesList.push(articlePicId); // List에 ID 추가
 			
 			// 삭제된 이미지를 추적하는 input 업데이트
 			const removedImagesInput = document.getElementById('removedImages');
 			let currentRemovedImages = removedImagesInput.value;
 			currentRemovedImages = currentRemovedImages ? currentRemovedImages
-					+ ',' + PicId : PicId;
+					+ ',' + articlePicId : articlePicId;
 			removedImagesInput.value = currentRemovedImages;
 		} else {
 			console.log("Image container not found!");
@@ -123,7 +122,7 @@ let removedImagesList = [];
 		}
 
 		// 이미지 업로드 이벤트 처리
-		const uploadButton = document.getElementById('newPic');
+		const uploadButton = document.getElementById('newArticlePic');
 		uploadButton.addEventListener('change', previewImage);
 	});
 </script>
@@ -133,7 +132,7 @@ let removedImagesList = [];
 		<form action="doModify" method="post" enctype="multipart/form-data"
 			onsubmit="return writeForm_onSubmit(this);">
 			<h2 class="text-3xl font-semibold text-pink-600 mb-6">게시물 정보</h2>
-			<input type="hidden" name="id" value="${member.getId()}" /> <input
+			<input type="hidden" name="id" value="${article.getId()}" /> <input
 				type="hidden" id="removedImages" name="removedImages" value="" />
 			<!-- 삭제된 이미지 ID 저장 -->
 
@@ -148,34 +147,17 @@ let removedImagesList = [];
 				</thead>
 				<tbody>
 					<tr>
-						<td class="px-4 py-2 border-b font-medium">ID</td>
-						<td class="px-4 py-2 border-b">${member.loginId}</td>
-						<td class="px-4 py-2 border-b">변경할 수 없습니다</td>
+						<td class="px-4 py-2 border-b font-medium">제목</td>
+						<td class="px-4 py-2 border-b">${article.title}</td>
+						<td><input id="title" name="title" type="text"
+							placeholder="변경할 제목을 입력해주세요" value="${article.getTitle()}" /></td>
 					</tr>
 					<tr>
-						<td class="px-4 py-2 border-b font-medium">이름</td>
-						<td class="px-4 py-2 border-b">${member.name}</td>
-						<td><input id="name" name="name" type="text"
-							placeholder="변경할 이름을 입력해주세요" value="${member.getName()}" /></td>
+						<td class="px-4 py-2 border-b font-medium">내용</td>
+						<td class="px-4 py-2 border-b">${article.body}</td>
+						<td><input id="body" name="body" type="text"
+							placeholder="변경할 내용을 입력해주세요" value="${article.getBody()}" /></td>
 					</tr>
-					<tr>
-						<td class="px-4 py-2 border-b font-medium">나이</td>
-						<td class="px-4 py-2 border-b">${member.age}</td>
-						<td><input id="age" name="age" type="text"
-							placeholder="변경할 나이를 입력해주세요" value="${member.getAge()}" /></td>
-					</tr>
-					<tr>
-						<td class="px-4 py-2 border-b font-medium">성별</td>
-						<td class="px-4 py-2 border-b">${member.sex}</td>
-						<td class="px-4 py-2 border-b">변경할 수 없습니다</td>
-					</tr>
-					<tr>
-						<td class="px-4 py-2 border-b font-medium">지역</td>
-						<td class="px-4 py-2 border-b">${member.areaId}</td>
-						<td><input id="areaId" name="areaId" type="text"
-							placeholder="변경할 지역을 입력해주세요" value="${member.getAreaId()}" /></td>
-					</tr>
-
 
 					<tr>
 						<td class="px-4 py-2 border-b font-medium">사진</td>
@@ -183,14 +165,14 @@ let removedImagesList = [];
 							<div id="imagePreviewContainer"
 								class="flex items-center space-x-4">
 								<c:choose>
-									<c:when test="${not empty pics}">
-										<c:forEach var="pic" items="${pics}">
-											<div class="relative" data-pic-id="${pic.id}">
-												<img src="/usr/pic/getImage?pic=${pic.pic}" alt="사진"
+									<c:when test="${not empty articlePics}">
+										<c:forEach var="articlePic" items="${articlePics}">
+											<div class="relative" data-pic-id="${articlePic.id}">
+												<img src="/usr/pic/getImage?pic=${articlePic.pic}" alt="사진"
 													class="w-24 h-24 object-cover" />
 												<button type="button"
 													class="absolute top-0 right-0 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center"
-													onclick="removeExistingImage('${pic.id}')">X</button>
+													onclick="removeExistingImage('${articlePic.id}')">X</button>
 											</div>
 										</c:forEach>
 									</c:when>
@@ -205,10 +187,10 @@ let removedImagesList = [];
 							<!-- 새로운 사진 업로드 -->
 							<div id="newImageUploadContainer"
 								class="flex items-center space-x-4">
-								<label for="newPic" id="uploadButton"
+								<label for="newArticlePic" id="uploadButton"
 									class="cursor-pointer"> <img src="/upload/image.png"
 									alt="파일 선택" class="w-32 h-32">
-								</label> <input type="file" name="pics" id="newPic"
+								</label> <input type="file" name="articlePics" id="newArticlePic"
 									class="hidden" onchange="previewImage(event)">
 							</div>
 						</td>

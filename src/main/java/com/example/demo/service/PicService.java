@@ -29,10 +29,12 @@ public class PicService {
 		this.picDao = picDao;
 	}
 
-	public void savePic(int id, MultipartFile pic) throws IOException {
-		if (pic != null && !pic.isEmpty()) {
-			String fileName = saveFile(pic);
-			picDao.savePic(id, fileName);
+	public void savePic(int id, MultipartFile[] pics) throws IOException {
+		for (MultipartFile pic : pics) {
+			if (pic != null && !pic.isEmpty()) {
+				String fileName = saveFile(pic);
+				picDao.savePic(id, fileName);
+			}
 		}
 	}
 
@@ -52,22 +54,20 @@ public class PicService {
 	public List<Pic> getPicById(int id) {
 		return picDao.getPicById(id);
 	}
-	
 
 	// v파일 삭제
 	public void picDelete(int picId) {
 		Pic pic = picDao.getPicByIdAndPicId(picId);
+		String filePath = fileDir + File.separator + pic.getPic();
+		File file = new File(filePath);
 
-		if (pic != null) {
-			String filePath = fileDir + File.separator + pic.getPic();
-			File file = new File(filePath);
-
-			if (file.exists()) {
-				file.delete();
-			}
+		// 파일이 존재하면 삭제
+		if (file.exists()) {
+			file.delete();
 		}
 
 		picDao.picDelete(picId);
+
 	}
 
 	public Pic getNextPic(int memberId, int currentPicId) {
@@ -96,11 +96,11 @@ public class PicService {
 
 	public void saveArticlePic(int articleId, MultipartFile[] articlePics) throws IOException {
 		for (MultipartFile articlePic : articlePics) {
-	        if (articlePic != null && !articlePic.isEmpty()) {
-	            String fileName = saveFile(articlePic);
-	            picDao.saveArticlePic(articleId, fileName);  // 여러 개의 파일을 저장
-	        }
-	    }
+			if (articlePic != null && !articlePic.isEmpty()) {
+				String fileName = saveFile(articlePic);
+				picDao.saveArticlePic(articleId, fileName);
+			}
+		}
 	}
 
 	public ArticlePic getPicByArticleId(int articleId) {
@@ -110,8 +110,36 @@ public class PicService {
 	public List<ArticlePic> getArticlePicById(int id) {
 		return picDao.getArticlePicById(id);
 	}
-	
-	
-	
+
+	public void deleteArticlePicsByArticleId(int articleId) {
+		List<ArticlePic> articlePics = picDao.getArticlePicById(articleId);
+
+		for (ArticlePic articlePic : articlePics) {
+			String filePath = fileDir + File.separator + articlePic.getPic();
+			File file = new File(filePath);
+
+			// 파일이 존재하면 삭제
+			if (file.exists()) {
+				file.delete();
+			}
+
+			// DB에서 이미지 삭제
+			picDao.articlePicDelete(articlePic.getId());
+		}
+
+	}
+
+	public void articlePicDeleteById(int picId) {
+		ArticlePic articlePic = picDao.articlePicById(picId);
+		String filePath = fileDir + File.separator + articlePic.getPic();
+		File file = new File(filePath);
+
+		// 파일이 존재하면 삭제
+		if (file.exists()) {
+			file.delete();
+		}
+
+		picDao.articlePicDeleteById(picId);
+	}
 
 }

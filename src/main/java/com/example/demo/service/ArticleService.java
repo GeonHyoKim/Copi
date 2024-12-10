@@ -35,4 +35,12 @@ public class ArticleService {
 		articleDao.increaseView(id);
 	}
 
+	public void deleteArticle(int id) {
+		articleDao.deleteArticle(id);
+	}
+
+	public void modifyArticle(int id, String title, String body) {
+		articleDao.modifyArticle(id, title, body);
+	}
+	
 }

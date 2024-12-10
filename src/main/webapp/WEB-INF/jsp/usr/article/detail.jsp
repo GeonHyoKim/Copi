@@ -3,6 +3,20 @@
 <c:set var="pageTitle" value="게시물 상세보기" />
 <%@ include file="/WEB-INF/jsp/common/header.jsp"%>
 
+<script>
+    <c:if test="${not empty message}">
+        alert("${message}"); // 성공 메시지
+        setTimeout(function() {
+            window.location.href = "/usr/article/list";
+        }, 1000); // 1초 후 리다이렉트
+    </c:if>
+
+    <c:if test="${not empty failMessage}">
+        alert("${failMessage}"); // 실패 메시지
+    </c:if>
+</script>
+
+
 <section class="container mx-auto p-6 bg-gray-50 rounded-lg shadow-lg">
     <h2 class="text-4xl font-extrabold text-pink-600 mb-8 text-center">게시물 상세보기</h2>
 
@@ -57,22 +71,46 @@
     </div>
 
     <!-- 버튼 -->
-    <div class="mt-10 text-center space-x-4">
+<div class="mt-10 text-center space-x-4">
+    <div class="flex justify-start space-x-4">
         <button 
             onclick="history.back()" 
             class="bg-gray-600 hover:bg-gray-700 text-white font-bold px-8 py-3 rounded-full shadow-lg transition-transform transform hover:scale-105"
         >
             뒤로가기
         </button>
-        <c:if test="${not empty loginedMember}">
+    </div>
+
+    <div class="flex justify-end space-x-4">
+        <c:if test="${not empty loginedMember && !canEdit}">
             <a 
-                href="/usr/message/send?receiverId=${member.getId()}" 
+                href="/usr/message/send?receiverId=${article.getMemberId()}" 
                 class="bg-pink-600 hover:bg-pink-700 text-white font-bold px-8 py-3 rounded-full shadow-lg transition-transform transform hover:scale-105"
             >
                 메세지 보내기
             </a>
         </c:if>
+
+        <c:if test="${canEdit}">
+            <!-- 수정하기 버튼 -->
+            <a 
+                href="/usr/article/articleModify?id=${article.getId()}" 
+                class="bg-blue-500 hover:bg-blue-600 text-white font-bold px-8 py-3 rounded-full shadow-lg transition-transform transform hover:scale-105"
+            >
+                수정하기
+            </a>
+            <!-- 삭제하기 버튼 -->
+            <a 
+                href="/usr/article/delete?id=${article.getId()}" 
+                class="bg-red-500 hover:bg-red-600 text-white font-bold px-8 py-3 rounded-full shadow-lg transition-transform transform hover:scale-105"
+                onclick="return confirm('정말로 삭제하시겠습니까?');"
+            >
+                삭제하기
+            </a>
+        </c:if>
     </div>
+</div>
+
 </section>
 
 <script>

@@ -74,6 +74,11 @@ body {
 	background-color: #0056b3;
 }
 </style>
+<c:if test="${not empty message}">
+    <script>
+        alert("${message}");
+    </script>
+</c:if>
 
 <div class="articles-container" id="articleContainer">
 	<c:forEach var="article" items="${articles}">
@@ -90,7 +95,8 @@ body {
 			</c:choose>
 			<div class="article-details">
 				<p class="article-title">${article.title}</p>
-				<p class="article-writer">작성자: ${article.writerName}</p>
+				<p class="article-writer">작성자 : ${article.writerName}</p>
+				<p class="article-writer">조회수 : ${article.views}</p>
 			</div>
 		</a>
 	</c:forEach>

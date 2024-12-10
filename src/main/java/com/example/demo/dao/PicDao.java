@@ -20,7 +20,7 @@ public interface PicDao {
 				, pic = #{fileName}
 			""")
 	void savePic(int id, String fileName);
-
+	
 	@Select("""
 			SELECT * FROM `pic`
 				WHERE memberId = #{id} 
@@ -90,5 +90,36 @@ public interface PicDao {
 			""")
 	void saveArticlePic(int articleId, String fileName);
 	
+	
+	@Delete("""
+	        DELETE FROM articlePic 
+			    WHERE id = #{picId}
+	    """)
+	void deleteArticlePic(int picId);
+	
+	@Delete("""
+			DELETE FROM `articlePic`
+				WHERE id = #{picId}
+			""")
+	void articlePicDelete(int articlePicId);
+	
+	// 게시물에 해당하는 모든 이미지 삭제
+	@Delete("""
+	    DELETE FROM articlePic
+	    WHERE articleId = #{articleId}
+	""")
+	void deleteArticlePicsByArticleId(int articleId);
+	
+	@Delete("""
+			DELETE FROM articlePic
+				WHERE id = #{picId}
+			""")
+	void articlePicDeleteById(int picId);
+	
+	@Select("""
+			SELECT * FROM articlePic
+				where id = #{picId}
+			""")
+	ArticlePic articlePicById(int picId);
 
 }
