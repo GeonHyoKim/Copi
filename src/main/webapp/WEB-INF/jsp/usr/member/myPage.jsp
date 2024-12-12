@@ -127,6 +127,7 @@
 				class="btn btn-outline btn-pink-600 hover:bg-pink-600 hover:text-white transition duration-300 px-6 py-2">쪽지함</a>
 		</div>
 	</div>
+	
 </section>
 
 <div class="mt-8 text-center">

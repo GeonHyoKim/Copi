@@ -84,7 +84,8 @@
 			alert('사진을 등록해주세요');
 			return;
 		}
-
+		
+		console.log(form.areaId.value);
 		form.submit();
 	}
 </script>
@@ -145,11 +146,9 @@
 		}
 	}
 </script>
-
-
-
-
-
+<script type="text/javascript"
+		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=893e98e2b5e6b7a1f3f211e9af4eb5d4&libraries=services"></script>
+		
 <section
 	class="bg-gradient-to-r from-pink-300 via-pink-200 to-pink-100 py-12">
 	<!-- 부드러운 연핑크 그라디언트 배경 -->
@@ -202,9 +201,8 @@
 							class="input input-bordered w-full py-3 px-4 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-500" />
 					</div>
 					<div>
-						<label class="block text-sm font-medium text-gray-700">지역</label>
-						<input type="text" name="areaId" placeholder="지역을 입력해주세요"
-							class="input input-bordered w-full py-3 px-4 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-500" />
+						<label class="block text-sm font-medium text-gray-700">지역 - <button type="button" onclick="getLocation()">위치 찾기</button></label>
+						주소 : <input name="areaId" id="areaId" />
 					</div>
 					<div>
 						<label class="block text-sm font-medium text-gray-700">사진</label>
@@ -230,5 +228,55 @@
 		</div>
 	</div>
 </section>
+<script>
+    function getLocation() {
+      const addressElement = document.getElementById("areaId");
+      // Geolocation API 지원 여부 확인
+      if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const { latitude, longitude, accuracy } = position.coords;
+            
+//             var container = document.getElementById('map');
+//             var options = {
+//               center: new kakao.maps.LatLng(latitude, longitude),
+//               level: 3
+//             };
 
+//             var map = new kakao.maps.Map(container, options);
+//             var markerPosition  = new kakao.maps.LatLng(latitude, longitude); 
+//             var marker = new kakao.maps.Marker({
+//               position: markerPosition
+//             });
+
+//             // 지도에 마커 추가
+//             marker.setMap(map);	
+            
+            var geocoder = new kakao.maps.services.Geocoder();
+            geocoder.coord2Address(longitude, latitude, function(result, status) {
+            	if (status === kakao.maps.services.Status.OK) {                // 주소를 결과에서 찾기
+            		var address = result[0].address.address_name;
+            		var addressParts = address.split(' ');
+            		var simplifiedAddress = addressParts[0] + " " + addressParts[1];
+            	    addressElement.textContent = `\${simplifiedAddress}`;
+            	    addressElement.value = `\${simplifiedAddress}`;
+            } else {
+                addressElement.textContent = "주소를 찾을 수 없습니다.";
+              }
+            });
+          },
+          (error) => {
+        	  
+          },
+          {
+            enableHighAccuracy: true, // 정확도 우선 모드
+            timeout: 10000,           // 10초 이내에 응답 없으면 에러 발생
+            maximumAge: 0             // 항상 최신 위치 정보 수집
+          }
+        );
+      } else {
+        status.textContent = "브라우저가 위치 서비스를 지원하지 않습니다.";
+      }
+    }
+  </script>
 <%@ include file="/WEB-INF/jsp/common/footer.jsp"%>

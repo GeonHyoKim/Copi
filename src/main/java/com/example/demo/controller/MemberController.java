@@ -49,7 +49,7 @@ public class MemberController {
 
 	@PostMapping("/usr/member/doJoin")
 	public String doJoin(Model model, String loginId, String loginPw, String name, int age, String sex, int num,
-			String areaId, MultipartFile[] pics) throws IOException {
+			@RequestParam("areaId") String areaId, MultipartFile[] pic) throws IOException {
 
 		Member member = memberService.getMemberId(loginId);
 
@@ -62,10 +62,10 @@ public class MemberController {
 
 		Member joinMember = memberService.getMemberId(loginId);
 
-		if (pics != null) {
-			picService.savePic(joinMember.getId(), pics);
+		if (pic != null) {
+			picService.savePic(joinMember.getId(), pic);
 		}
-
+		
 		model.addAttribute("message", "회원가입 성공.");
 		return "/usr/member/login";
 	}

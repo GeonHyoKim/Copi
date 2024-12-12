@@ -23,7 +23,9 @@ section {
 .text-box {
     flex: 1;
     text-align: left;
+    margin-top: 3rem;
     margin-right: 0.5rem;
+    margin-left: 5rem;
 }
 
 .text-box h1 {
@@ -33,7 +35,20 @@ section {
     color: #000;
     line-height: 1.5;
 }
-
+.text-box-2 h1 {
+    font-size: 2.7rem;
+    font-family: "Single Day", cursive;
+    font-weight: 400;
+    color: #000;
+    line-height: 1.5;
+}
+.text-box {
+    flex: 1;
+    text-align: left;
+    margin-top: 3rem;
+    margin-right: 0.5rem;
+    margin-left: 5rem;
+}
 .text-box-1{
 	margin-left: 5rem;
 }
@@ -171,9 +186,10 @@ section {
 
 
 <section class="home-2">
-    <div class="text-box">
-        <h1 class="text-box-2">
-             <span class="mein">실제 이용자</span>가 남긴 후기 
+    <div class="text-box-2">
+        <h1 class="text-box">
+             <span class="mein">실제 이용자</span>가 남긴 후기
+             <br> 
              <span class="mein">2000</span>개 이상!!
         </h1>
     </div>

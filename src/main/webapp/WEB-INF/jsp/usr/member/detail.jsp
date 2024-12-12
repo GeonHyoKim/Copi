@@ -128,15 +128,23 @@
 			</table>
 		</div>
 	</div>
-	<div class="mt-8 text-center">
-		<button onclick="history.back()"
-			class="bg-gray-600 hover:bg-gray-700 text-white font-bold px-6 py-3 rounded-full shadow-lg transition duration-300 mr-4">뒤로가기</button>
-		<c:if test="${not empty loginedMember}">
-			<a href="/usr/message/send?receiverId=${member.getId()}"
-				class="bg-pink-600 hover:bg-pink-700 text-white font-bold px-6 py-3 rounded-full shadow-lg transition duration-300">메세지
-				보내기 </a>
-		</c:if>
-	</div>
+	<div class="mt-8 text-center space-y-4">
+    <button onclick="history.back()"
+        class="bg-gray-600 hover:bg-gray-700 text-white font-bold px-6 py-3 rounded-full shadow-lg transition duration-300 w-full sm:w-auto">뒤로가기</button>
+    
+    <c:if test="${not empty loginedMember}">
+        <div class="flex justify-center gap-4">
+            <a href="/usr/message/send?receiverId=${member.getId()}"
+                class="bg-pink-600 hover:bg-pink-700 text-white font-bold px-6 py-3 rounded-full shadow-lg transition duration-300 w-full sm:w-auto">
+                쪽지 보내기
+            </a>
+            <a href="/usr/chat/chat?receiverId=${member.getId()}"
+                class="bg-pink-600 hover:bg-pink-700 text-white font-bold px-6 py-3 rounded-full shadow-lg transition duration-300 w-full sm:w-auto">
+                채팅방 열기
+            </a>
+        </div>
+    </c:if>
+</div>
 </section>
 
 <%@ include file="/WEB-INF/jsp/common/footer.jsp"%>

@@ -1,13 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>성공</title>
-</head>
-<body>
-	<div>${message}</div>
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="jakarta.tags.core" prefix="c"%>
+<c:set var="pageTitle" value="성공" />
+
+<script>
+    <c:if test="${not empty message}">
+        alert("${message}"); // 서버에서 전달된 message를 alert로 띄우기
+        setTimeout(function() {
+            window.location.href = "/usr/home/home"; // 홈으로 리다이렉트
+        });
+    </c:if>
+
+    <c:if test="${not empty failMessage}">
+        alert("${failMessage}"); // 실패 메시지
+    </c:if>
+</script>
+
 	<a href="/usr/home/home">홈으로 가기</a>
-</body>
-</html>
+
+	
+	
+<%@ include file="/WEB-INF/jsp/common/footer.jsp"%>

@@ -78,5 +78,7 @@ public class MessageController {
 		model.addAttribute("message", message);
 		return "/usr/message/detail";
 	}
-
+	
+	
+	
 }

@@ -69,5 +69,10 @@ public class HomeController {
 		return "/usr/home/home";
 	}
 	
+	@GetMapping("/usr/home/test")
+	public String test() {
+		return "/usr/home/test";
+	}
+	
 
 }
