@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.dao.MessageDao;
 
-import dto.Message;
+import dto.Message_1;
 
 @Service
 public class MessageService {
@@ -20,15 +20,15 @@ public class MessageService {
 		messageDao.sendMessage(senderId, receiverId, content);
 	}
 
-	public List<Message> getReceivedMessages(int memberId) {
+	public List<Message_1> getReceivedMessages(int memberId) {
 		return messageDao.getReceivedMessages(memberId);
 	}
 
-	public List<Message> getSentMessages(int memberId) {
+	public List<Message_1> getSentMessages(int memberId) {
 		return messageDao.getSentMessages(memberId);
 	}
 
-	public Message getMessageById(int id) {
+	public Message_1 getMessageById(int id) {
 		return messageDao.getMessageById(id);
 	}
 

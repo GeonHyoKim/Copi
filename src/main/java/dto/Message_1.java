@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Message {
+public class Message_1 {
 	private int id;
 	private int senderId;
 	private int receiverId;

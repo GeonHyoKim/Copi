@@ -138,13 +138,29 @@
                 class="bg-pink-600 hover:bg-pink-700 text-white font-bold px-6 py-3 rounded-full shadow-lg transition duration-300 w-full sm:w-auto">
                 쪽지 보내기
             </a>
-            <a href="/usr/chat/chat?receiverId=${member.getId()}"
-                class="bg-pink-600 hover:bg-pink-700 text-white font-bold px-6 py-3 rounded-full shadow-lg transition duration-300 w-full sm:w-auto">
+<%--             <a href="/usr/chat/chat?receiverId=${member.getId()}" --%>
+<!--                 class="bg-pink-600 hover:bg-pink-700 text-white font-bold px-6 py-3 rounded-full shadow-lg transition duration-300 w-full sm:w-auto"> -->
+<!--                 채팅방 열기 -->
+<!--             </a> -->
+            <button 
+                class="in" data-id="${member.getId()}">
                 채팅방 열기
-            </a>
+            </button>
         </div>
     </c:if>
 </div>
 </section>
-
+<script>
+	
+		$('.in').click(function() {
+			let senderId = $(this).data('id');  // 부모 창에서 ID 가져오기
+		    let child = window.open('/usr/chat/chat?receiverId=' + senderId, 'chat', 'width=405', 'height=510');
+			
+			child.addEventListener('load', function() {
+				//자식창 다 뜨고 나면 발생
+				child.document.getElementById('receiverId').value = receiverId;
+			});
+		});
+	
+	</script>
 <%@ include file="/WEB-INF/jsp/common/footer.jsp"%>

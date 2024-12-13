@@ -3,6 +3,8 @@ package com.example.demo.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import dto.Member;
+
 @Controller
 public class HomeController {
 
@@ -73,6 +75,8 @@ public class HomeController {
 	public String test() {
 		return "/usr/home/test";
 	}
+	
+	
 	
 
 }

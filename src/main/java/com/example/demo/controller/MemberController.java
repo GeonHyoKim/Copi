@@ -74,7 +74,7 @@ public class MemberController {
 	@GetMapping("/usr/member/login")
 	public String login(Model model) {
 		Member loginedMember = (Member) session.getAttribute("loginedMember");
-
+		
 		if (loginedMember != null) {
 			model.addAttribute("message", "로그인이 이미 되어있습니다.");
 			return "/usr/home/fail";
@@ -96,6 +96,7 @@ public class MemberController {
 			return "/usr/member/login";
 		}
 		session.setAttribute("loginedMember", member);
+		System.out.println(session.getAttribute("loginedMember").toString());
 
 		model.addAttribute("message", "로그인 성공!");
 		return "/usr/home/home";
@@ -103,6 +104,7 @@ public class MemberController {
 	// 로그아웃
 	@GetMapping("/usr/member/logout")
 	public String logout(Model model) {
+		System.out.println(session.getAttribute("loginedMember").toString());
 		Member loginedMember = (Member) session.getAttribute("loginedMember");
 
 		if (loginedMember == null) {
@@ -111,7 +113,8 @@ public class MemberController {
 		}
 		
 		session.invalidate();
-
+		System.out.println(session.getAttribute("loginedMember"));
+//		session.removeAttribute("loginedMember");
 		return "redirect:/usr/home/home";
 	}
 
