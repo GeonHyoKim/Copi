@@ -10,40 +10,26 @@ import dto.Member;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
-public class HomeController {
-	
-	private HttpSession session;
+public class JongController {
 	private ChatService chatService;
-
-
-	public HomeController(HttpSession session, ChatService chatService) {
-		this.session = session;
+	private HttpSession session;
+	
+	public JongController(ChatService chatService, HttpSession session) {
 		this.chatService = chatService;
-
-	}
-
-
-	@GetMapping("/")
-	public String showRoot() {
-		return "redirect:/usr/home/home";
+		this.session = session;
 	}
 	
-	@GetMapping("/usr/home/home")
-	public String home(Model model) {
+	@GetMapping("/usr/common/jong")
+	public String jong(Model model ) {
+
 		Member loginedMember = (Member) session.getAttribute("loginedMember");
 		if (loginedMember != null) {
 		    int jongCount = chatService.getIsRead(loginedMember.getId());
+		    System.out.println("jongCount: " + jongCount); 
 		    model.addAttribute("jongCount", jongCount);
 		}
-		return "/usr/home/home";
+		
+		return "/usr/common/jong";
 	}
 	
-	@GetMapping("/usr/home/test")
-	public String test() {
-		return "/usr/home/test";
-	}
-	
-	
-	
-
 }

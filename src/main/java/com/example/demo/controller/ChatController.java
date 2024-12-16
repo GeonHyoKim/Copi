@@ -1,11 +1,13 @@
 package com.example.demo.controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.service.ChatService;
@@ -20,13 +22,14 @@ public class ChatController {
 	
 	private ChatService chatService;
 	private MemberService memberService;
-	
+	private final SimpMessagingTemplate template;
 	private HttpSession session;
 	
-	public ChatController(ChatService chatService, HttpSession session, MemberService memberService) {
+	public ChatController(ChatService chatService, HttpSession session, MemberService memberService, SimpMessagingTemplate template) {
 		this.chatService = chatService;
 		this.memberService = memberService;
 		this.session = session;
+		this.template = template;
 	}
 
 	@GetMapping("/usr/chat/chat")
@@ -50,18 +53,23 @@ public class ChatController {
 	}
 	
 	
-	@PostMapping("/usr/chat/send")
-    public String sendMessage(Model model, @RequestParam int receiverId, @RequestParam String content) {
-        Member loginedMember = (Member) session.getAttribute("loginedMember");
-
-        if (loginedMember == null) {
-        	model.addAttribute("message", "로그인이 안 되어있습니다.");
-            return "redirect:/usr/home/fail";
-        }
-
-        chatService.sendMessage(loginedMember.getId(), receiverId, content);
-        return "redirect:/usr/chat/chat?receiverId=" + receiverId;
+	@MessageMapping("/messages")
+    public Chat sendMessage(Chat message) {
+		Member sender = memberService.getMemberById(message.getSenderId());
+	    Member receiver = memberService.getMemberById(message.getReceiverId());
+        
+	    message.setSenderName(sender.getName());
+	    message.setReceiverName(receiver.getName());
+	    message.setTimestamp(LocalDateTime.now());
+	    
+		template.convertAndSend("/sub/message", message);
+        chatService.sendMessage(message.getSenderId(), message.getReceiverId(), message.getContent());
+        return message;
     }
+	
+	
+	
+	
 	
 	
 }

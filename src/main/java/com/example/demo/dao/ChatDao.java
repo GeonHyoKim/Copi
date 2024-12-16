@@ -40,5 +40,12 @@ public interface ChatDao {
 			    WHERE id = #{chatId}
 			""")
 	void read(@Param("chatId") int chatId);
+	
+	@Select("""
+			SELECT COUNT(*) FROM chat
+			WHERE receiverId  = #{receiverId }
+			AND isRead = 1;
+			""")
+	int getIsRead(int receiverId );
 
 }

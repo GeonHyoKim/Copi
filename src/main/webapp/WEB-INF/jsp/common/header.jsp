@@ -19,8 +19,10 @@
 <!-- 폰트어썸 -->
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.1/sockjs.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>	
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.1/sockjs.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 <!-- common css -->
 <link rel="stylesheet" href="/resource/common.css" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -28,7 +30,7 @@
 <link
 	href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Single+Day&display=swap"
 	rel="stylesheet">
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>	
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
 </head>
 <style>
@@ -43,8 +45,10 @@
 	display: flex;
 	align-items: center;
 	color: #ec4899;
+	
 }
 </style>
+	
 <body>
 	<header
 		class="h-20 flex items-center justify-between container mx-auto text-3xl px-4 bg-pink-100">
@@ -90,7 +94,10 @@
 					class="hover:underline hover:text-pink-600 transition duration-300">
 					<a class="px-3 py-1"
 					href="${pageContext.request.contextPath}/usr/article/list">Article</a>
+
 				</li>
+
+				
 			</c:if>
 
 		</ul>

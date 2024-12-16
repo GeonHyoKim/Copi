@@ -127,16 +127,16 @@
 }
 
 .message {
-    margin: 10px 0;
-    padding: 15px 20px;
-    border-radius: 20px;
-    max-width: 75%;
-    word-wrap: break-word;
-    font-size: 16px;
-    position: relative;
-    display: flex;
-    flex-direction: column; /* 세로로 쌓이도록 변경 */
-    align-items: flex-start;
+	margin: 10px 0;
+	padding: 15px 20px;
+	border-radius: 20px;
+	max-width: 75%;
+	word-wrap: break-word;
+	font-size: 16px;
+	position: relative;
+	display: flex;
+	flex-direction: column; /* 세로로 쌓이도록 변경 */
+	align-items: flex-start;
 }
 
 .message .message-content {
@@ -226,87 +226,112 @@
 	}
 </script>
 <script>
-	//웹소켓 사용 스크립트
 	$(function() {
-		// 웹소켓 연결 설정
-		let socket = new SockJS('/ws-stomp');
-		let stompClient = Stomp.over(socket);
+    // 웹소켓 연결 설정
+    let socket = new SockJS('/ws-stomp');
+    let stompClient = Stomp.over(socket);
 
-		// 웹소켓 서버에 연결 후 메시지 구독
-		stompClient.connect({}, function() {
+    // 웹소켓 서버에 연결 후 메시지 구독
+    stompClient.connect({}, function() {
+        let userId = $('#userId').text();
 
-			let userId = $('#userId').text();
-			stompClient.subscribe('/sub/message', function(message) {
-				// 메시지가 도착할 때마다 기존 메시지에 추가
-				let notificationDiv = $('#notifications');
-				notificationDiv.append(`<span>\${message.body}</span>`);
-			})
-		})
+        stompClient.subscribe('/sub/message', function(message) {
+            try {
+                const data = JSON.parse(message.body);
+                console.log("Received JSON data:", data);
 
-		$('#sendNotification').click(function() {
-			let sender = $('#userId').text(); // 로그인된 사용자 ID
-			let receiverId = $('#receiverId').text(); // 수신자 ID
-			let content = $('#message').val(); // 입력된 메시지
-			
-			 console.log("Receiver ID: ", receiverId); 
-			
-			stompClient.send('/pub/messages', {}, JSON.stringify({
-				senderId : sender,
-				receiverId : receiverId,
-				content : content
-			}));
-		})
-	})
-	
+                // 새 메시지가 오면 화면에 표시
+                let messageClass = data.senderId == ${loginedMember.id} ? 'sent' : 'received';
+				let senderName = data.senderId == ${loginedMember.id} ? '나' : data.senderName || "알 수 없음"; // 기본값 설정
+				let timeAgoText = timeAgo(data.timestamp);
+				if (data.content) {
+		            let messageHtml = `
+		                <div class="message \${messageClass}" data-chat-id="${data.id != null ? data.id : 0}">
+		                <div class="sender-name">\${senderName}</div>
+		                <div class="message-content">
+		                	<p>\${data.content}</p> <!-- 메시지 내용이 비어있지 않으면 p 태그에 내용 추가 -->
+		            	</div>
+		            	<div class="message-details">
+		                <div class="timestamp">
+		                    <span class="time">\${timeAgoText}</span>
+		                </div>
+		            </div>
+		        </div>
+		            `;
+		            console.log("Message HTML:", messageHtml); // HTML 확인
+		            
+		            $('.messages').append(messageHtml);
+		            
+		        }
+                $('.messages').scrollTop($('.messages')[0].scrollHeight); // 스크롤을 가장 아래로 이동
+            } catch (e) {
+                console.error("Failed to parse JSON:", message.body, e);
+            }
+        });
+    });
+
+    // 메시지 전송 버튼 클릭 시
+    $('#sendNotification').click(function() {
+        let sender = ${loginedMember.id}; // 로그인된 사용자 ID
+        let receiverId = $('#receiverId').val(); // 수신자 ID
+        let content = $('#content').val(); // 입력된 메시지
+
+        // 메시지 전송
+        stompClient.send('/pub/messages', {}, JSON.stringify({
+            senderId: sender,
+            receiverId: receiverId,
+            content: content
+        }));
+
+        // 메시지 전송 후 텍스트 입력창 비우기
+        $('#content').val('');
+    });
+});
+
 </script>
 <div class="chat-container">
 	<div class="chat-header">${chat[0].senderName}님과
 		${chat[0].receiverName}님의 채팅</div>
+	${loginedMember.id}
 	<div class="messages">
 		<!-- 기존 채팅 메시지 표시 -->
 		<c:forEach var="chat" items="${chat}">
-    <div class="${chat.senderId == sessionScope.loginedMember.id ? 'message sent' : 'message received'}" data-chat-id="${chat.id}">
-        <div class="sender-name">
-            <c:if test="${chat.senderId == sessionScope.loginedMember.id}">나</c:if>
-            <c:if test="${chat.senderId != sessionScope.loginedMember.id}">${chat.senderName}</c:if>
-        </div>
-        <div class="message-box">
-            <p>${chat.content}</p>
-        </div>
+			<div
+				class="${chat.senderId == sessionScope.loginedMember.id ? 'message sent' : 'message received'}"
+				data-chat-id="${chat.id}">
+				<div class="sender-name">
+					<c:if test="${chat.senderId == sessionScope.loginedMember.id}">나</c:if>
+					<c:if test="${chat.senderId != sessionScope.loginedMember.id}">${chat.senderName}</c:if>
+				</div>
+				<div class="message-box">
+					<p>${chat.content}</p>
+				</div>
 
-        <div class="timestamp">
-            <c:if test="${chat.senderId == sessionScope.loginedMember.id}">
-                <span class="time">${chat.timestamp}</span>
-            </c:if>
+				<div class="timestamp">
+					<c:if test="${chat.senderId == sessionScope.loginedMember.id}">
+						<span class="time">${chat.timestamp}</span>
+					</c:if>
 
-            <c:if test="${chat.senderId != sessionScope.loginedMember.id}">
-                <span class="time">${chat.timestamp}</span>
-            </c:if>
-        </div>
+					<c:if test="${chat.senderId != sessionScope.loginedMember.id}">
+						<span class="time">${chat.timestamp}</span>
+					</c:if>
+				</div>
 
-        <!-- 안읽음 표시 (메시지 밑에 위치) -->
-        <c:if test="${chat.isRead == 1}">
-            <div class="unread-status">
-                <span class="read-status unread">안읽음</span>
-            </div>
-        </c:if>
+			</div>
 
-    </div>
-
-    <div class="clear"></div>
-</c:forEach>
+			<div class="clear"></div>
+		</c:forEach>
 
 
 	</div>
 
 	<!-- 새 메시지 입력 및 전송 -->
-	<form action="/usr/chat/send" method="post" class="chat-footer">
-		
-		
-		<input type="hidden" id="receiverId" name="receiverId" value="${member.id}" />
-		<input type="text" name="content" placeholder="메시지를 입력하세요" required />
-		<button id="sendNotification">알림 보내기</button>
-	</form>
+	<!-- 	<form action="/usr/chat/send" method="post" class="chat-footer"> -->
+	<input type="hidden" id="receiverId" name="receiverId"
+		value="${member.id}" /> <input type="text" name="content"
+		id="content" placeholder="메시지를 입력하세요" required />
+	<button id="sendNotification">알림 보내기</button>
+	<!-- 	</form> -->
 </div>
 
 

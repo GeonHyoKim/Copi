@@ -99,7 +99,7 @@ public class MemberController {
 		System.out.println(session.getAttribute("loginedMember").toString());
 
 		model.addAttribute("message", "로그인 성공!");
-		return "/usr/home/home";
+		return "redirect:/usr/home/home";
 	}
 	// 로그아웃
 	@GetMapping("/usr/member/logout")
@@ -212,6 +212,18 @@ public class MemberController {
 
 		model.addAttribute("members", members);
 		return "/usr/member/list";
+	}
+	
+	@GetMapping("/usr/member/test")
+	public String test(Model model) {
+		List<Member> members = memberService.getMembers();
+		
+		for (Member member : members) {
+			Pic pic = picService.getPicByMemberId(member.getId());
+			member.setPic(pic);
+		}
+		model.addAttribute("members", members);
+		return"/usr/member/test";
 	}
 
 	// 디테일

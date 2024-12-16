@@ -39,5 +39,10 @@ public class ChatService {
 	        }
 	    }
 	}
+
+
+	public int getIsRead(int receiverId ) {
+		return chatDao.getIsRead(receiverId );
+	}
 	
 }
