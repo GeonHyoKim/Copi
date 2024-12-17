@@ -143,7 +143,7 @@
 <!--                 채팅방 열기 -->
 <!--             </a> -->
             <button 
-                class="in" data-id="${member.getId()}">
+                class="in bg-pink-600 hover:bg-pink-700 text-white font-bold px-6 py-3 rounded-full shadow-lg transition duration-300 w-full sm:w-auto" data-id="${member.getId()}">
                 채팅방 열기
             </button>
         </div>

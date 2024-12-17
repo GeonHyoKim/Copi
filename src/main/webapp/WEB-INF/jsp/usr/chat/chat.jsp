@@ -7,186 +7,185 @@
 
 <style>
 .chat-container {
-	max-width: 600px;
-	margin: auto;
-	padding: 10px;
-	border-radius: 15px;
-	background: #A3C9F1;
-	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-	font-family: 'Arial', sans-serif;
+    max-width: 600px;
+    margin: auto;
+    padding: 10px;
+    border-radius: 15px;
+    background: #A3C9F1;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: 'Arial', sans-serif;
 }
 
 .chat-header {
-	text-align: center;
-	padding: 15px;
-	background: #0078d4;
-	color: white;
-	font-weight: bold;
-	border-radius: 10px 10px 0 0;
+    text-align: center;
+    padding: 15px;
+    background: #0078d4;
+    color: white;
+    font-weight: bold;
+    border-radius: 10px 10px 0 0;
 }
 
 .messages {
-	height: 450px;
-	overflow-y: auto;
-	padding: 10px;
-	background: #D9E8F7; /* 연한 하늘색 배경 */ /* 밝은 회색 배경 */
-	border-radius: 8px;
-	margin-bottom: 20px;
+    height: 450px;
+    overflow-y: auto;
+    padding: 10px;
+    background: #D9E8F7;
+    border-radius: 8px;
+    margin-bottom: 20px;
 }
 
 .message {
-	margin: 10px 0;
-	padding: 15px 20px;
-	border-radius: 20px;
-	max-width: 75%;
-	word-wrap: break-word;
-	font-size: 16px;
-	position: relative;
-	display: flex;
-	flex-direction: column; /* 세로로 쌓이도록 변경 */
-	align-items: flex-start;
+    margin: 10px 0;
+    padding: 15px 20px;
+    border-radius: 20px;
+    max-width: 75%;
+    word-wrap: break-word;
+    font-size: 16px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 }
 
 .sent {
-	background-color: #FFEB3B; /* 노란색 */
-	color: black;
-	float: right;
-	text-align: right;
-	border-radius: 20px 20px 0 20px;
-	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #FFEB3B;
+    color: black;
+    float: right;
+    text-align: right;
+    border-radius: 20px 20px 0 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .received {
-	background-color: #03A9F4; /* 파란색 */
-	color: white;
-	float: left;
-	text-align: left;
-	border-radius: 20px 20px 20px 0;
-	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #03A9F4;
+    color: white;
+    float: left;
+    text-align: left;
+    border-radius: 20px 20px 20px 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .sender-name {
-	font-weight: bold;
-	font-size: 15px;
-	color: #4e00d4;
+    font-weight: bold;
+    font-size: 15px;
+    color: #4e00d4;
 }
 
 .timestamp {
-	font-size: 12px;
-	color: #bbb;
-	margin-top: 5px;
+    font-size: 12px;
+    color: #bbb;
+    margin-top: 5px;
 }
 
 .read-status {
-	font-size: 12px;
-	color: #bbb;
-	margin-top: 5px;
+    font-size: 12px;
+    color: #bbb;
+    margin-top: 5px;
 }
 
 .read-status.read {
-	color: green;
+    color: green;
 }
 
 .read-status.unread {
-	color: red;
+    color: red;
 }
 
 .clear {
-	clear: both;
+    clear: both;
 }
 
 .chat-footer {
-	display: flex;
-	padding: 10px;
-	background: #fff;
-	border-top: 1px solid #ddd;
+    display: flex;
+    padding: 10px;
+    background: #fff;
+    border-top: 1px solid #ddd;
+    align-items: center;
 }
 
 .chat-footer input[type="text"] {
-	flex: 1;
-	padding: 12px;
-	border: 1px solid #ddd;
-	border-radius: 25px;
-	outline: none;
-	font-size: 14px;
+    flex: 1;
+    padding: 15px 20px;
+    border: 1px solid #ddd;
+    border-radius: 25px;
+    outline: none;
+    font-size: 16px;
+    background-color: #f1f1f1;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.chat-footer input[type="text"]:focus {
+    background-color: #ffffff;
+    border-color: #0078d4;
+    box-shadow: 0 2px 8px rgba(0, 120, 212, 0.2);
 }
 
 .chat-footer button {
-	margin-left: 10px;
-	padding: 12px 25px;
-	background-color: #0078d4;
-	color: white;
-	border: none;
-	border-radius: 25px;
-	cursor: pointer;
-	font-weight: bold;
+    margin-left: 10px;
+    padding: 15px 30px;
+    background-color: #0078d4;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s, transform 0.2s;
 }
 
 .chat-footer button:hover {
-	background-color: #0056b3;
+    background-color: #0056b3;
+    transform: scale(1.05);
 }
 
-.message {
-	margin: 10px 0;
-	padding: 15px 20px;
-	border-radius: 20px;
-	max-width: 75%;
-	word-wrap: break-word;
-	font-size: 16px;
-	position: relative;
-	display: flex;
-	flex-direction: column; /* 세로로 쌓이도록 변경 */
-	align-items: flex-start;
+.chat-footer button:active {
+    transform: scale(0.98);
+}
+
+.chat-footer input[type="text"]::placeholder {
+    color: #777;
+    font-style: italic;
 }
 
 .message .message-content {
-	display: flex;
-	flex-direction: column;
-	align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 }
 
 .message .message-content p {
-	margin-bottom: 5px;
+    margin-bottom: 5px;
 }
 
 .message .message-details {
-	display: flex;
-	justify-content: space-between;
-	width: 100%;
-	font-size: 12px;
-	color: #bbb;
-	margin-top: 5px;
-}
-
-.message .message-details {
-	display: flex;
-	justify-content: space-between;
-	width: 100%;
-	font-size: 12px;
-	color: #bbb;
-	margin-top: 5px;
-	align-items: center; /* 수평 중앙 정렬 */
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    font-size: 12px;
+    color: #bbb;
+    margin-top: 5px;
+    align-items: center;
 }
 
 .message .message-details .sender-name {
-	color: #0078d4;
-	font-weight: bold;
+    color: #0078d4;
+    font-weight: bold;
 }
 
 .message .message-details .timestamp {
-	color: #999;
+    color: #999;
 }
 
 .message .message-details .read-status {
-	color: #bbb;
+    color: #bbb;
 }
 
 .unread-status {
-	text-align: center;
-	margin-top: 20px;
-	font-size: 14px;
-	color: red;
-	font-weight: bold;
+    text-align: center;
+    margin-top: 20px;
+    font-size: 14px;
+    color: red;
+    font-weight: bold;
 }
 </style>
 <script>
@@ -286,13 +285,18 @@
         // 메시지 전송 후 텍스트 입력창 비우기
         $('#content').val('');
     });
+    $('#content').keydown(function(event) {
+        if (event.key === 'Enter') {
+            event.preventDefault(); // 기본 Enter 동작 방지 (줄바꿈 방지)
+            $('#sendNotification').click(); // 버튼 클릭과 동일한 기능 실행
+        }
+    });
 });
 
 </script>
 <div class="chat-container">
 	<div class="chat-header">${chat[0].senderName}님과
 		${chat[0].receiverName}님의 채팅</div>
-	${loginedMember.id}
 	<div class="messages">
 		<!-- 기존 채팅 메시지 표시 -->
 		<c:forEach var="chat" items="${chat}">
@@ -328,10 +332,13 @@
 	<!-- 새 메시지 입력 및 전송 -->
 	<!-- 	<form action="/usr/chat/send" method="post" class="chat-footer"> -->
 	<input type="hidden" id="receiverId" name="receiverId"
-		value="${member.id}" /> <input type="text" name="content"
+		value="${member.id}" /> 
+    <div class="chat-footer">
+	<input type="text" name="content"
 		id="content" placeholder="메시지를 입력하세요" required />
 	<button id="sendNotification">알림 보내기</button>
 	<!-- 	</form> -->
+	</div>
 </div>
 
 

@@ -44,5 +44,11 @@ public class ChatService {
 	public int getIsRead(int receiverId ) {
 		return chatDao.getIsRead(receiverId );
 	}
+
+
+
+	public List<Chat> getChatIsRead(int id) {
+		return chatDao.getChatIsRead(id);
+	}
 	
 }

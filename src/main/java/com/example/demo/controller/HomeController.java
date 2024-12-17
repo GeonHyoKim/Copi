@@ -34,6 +34,7 @@ public class HomeController {
 		if (loginedMember != null) {
 		    int jongCount = chatService.getIsRead(loginedMember.getId());
 		    model.addAttribute("jongCount", jongCount);
+		    
 		}
 		return "/usr/home/home";
 	}

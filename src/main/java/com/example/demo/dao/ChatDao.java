@@ -47,5 +47,14 @@ public interface ChatDao {
 			AND isRead = 1;
 			""")
 	int getIsRead(int receiverId );
+	
+	@Select("""
+			SELECT c.*, m.name AS senderName FROM chat AS c
+			INNER JOIN `member` AS m
+			ON c.senderId = m.id
+			WHERE receiverId = #{id}
+			AND isRead = 1;
+			""")
+	List<Chat> getChatIsRead(int id);
 
 }
