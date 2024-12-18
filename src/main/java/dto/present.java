@@ -9,10 +9,11 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Message_1 {
+public class present {
 	private int id;
 	private int senderId;
 	private int receiverId;
+	private int presentId;
 	private String content;
 	private LocalDateTime timestamp;
 	private boolean is_read;

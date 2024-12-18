@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.example.demo.service.MessageService;
 
 import dto.Member;
-import dto.Message_1;
+import dto.present;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -34,8 +34,8 @@ public class MessageController {
 			return "/usr/home/fail";
 		}
 
-		List<Message_1> receivedMessages = messageService.getReceivedMessages(loginedMember.getId());
-		List<Message_1> sentMessages = messageService.getSentMessages(loginedMember.getId());
+		List<present> receivedMessages = messageService.getReceivedMessages(loginedMember.getId());
+		List<present> sentMessages = messageService.getSentMessages(loginedMember.getId());
 		
 		model.addAttribute("sentMessages", sentMessages);
 		model.addAttribute("receivedMessages", receivedMessages);
@@ -44,6 +44,7 @@ public class MessageController {
 
 	@GetMapping("/usr/message/send")
 	public String send(Model model, @RequestParam int receiverId) {
+		
 		model.addAttribute("receiverId", receiverId);
 		return "usr/message/send";
 	}
@@ -69,7 +70,7 @@ public class MessageController {
 
 	@GetMapping("/usr/message/detail")
 	public String detail(@RequestParam int id, Model model) {
-		Message_1 message = messageService.getMessageById(id);
+		present message = messageService.getMessageById(id);
 
 		if (message == null) {
 			model.addAttribute("message", "쪽지를 찾을 수 없습니다.");

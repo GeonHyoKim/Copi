@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.example.demo.dao.PicDao;
 
 import dto.ArticlePic;
+import dto.GiftPic;
 import dto.Pic;
 
 @Service
@@ -141,5 +142,14 @@ public class PicService {
 
 		picDao.articlePicDeleteById(picId);
 	}
+
+	
+	public void saveGiftPic(int giftId, MultipartFile giftPic) throws IOException {
+		String fileName = saveFile(giftPic);
+		picDao.saveGiftPic(giftId, fileName);
+	}
+
+	public GiftPic getPicByGiftId(int giftId) {
+		return picDao.getPicByGiftId(giftId);	}
 
 }

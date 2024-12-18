@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
-import dto.Message_1;
+import dto.present;
 
 @Mapper
 public interface MessageDao {
@@ -27,7 +27,7 @@ public interface MessageDao {
 		            ON m.receiverId = receiver.id
 		            WHERE m.receiverId = #{memberId}
             """)
-	List<Message_1> getReceivedMessages(int memberId);
+	List<present> getReceivedMessages(int memberId);
 
 	@Select("""
 			    SELECT m.*, sender.name AS senderName, receiver.name AS receiverName
@@ -38,7 +38,7 @@ public interface MessageDao {
 		            ON m.receiverId = receiver.id
 		            WHERE m.senderId = #{memberId}
 			""")
-	List<Message_1> getSentMessages(int memberId);
+	List<present> getSentMessages(int memberId);
 
 	@Select("""
 			SELECT m.*, sender.name AS senderName, receiver.name AS receiverName
@@ -49,5 +49,5 @@ public interface MessageDao {
 			          ON m.receiverId = receiver.id
 			          WHERE m.id = #{id}
 			""")
-	Message_1 getMessageById(int id);
+	present getMessageById(int id);
 }

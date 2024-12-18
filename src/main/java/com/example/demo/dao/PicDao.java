@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import dto.ArticlePic;
+import dto.GiftPic;
 import dto.Pic;
 
 @Mapper
@@ -121,5 +122,18 @@ public interface PicDao {
 				where id = #{picId}
 			""")
 	ArticlePic articlePicById(int picId);
+	
+	@Insert("""
+			INSERT INTO `giftPic`
+				SET giftId = #{giftId}
+				, pic = #{fileName}
+			""")
+	void saveGiftPic(int giftId, String fileName);
+	
+	@Select("""
+			SELECT * FROM giftPic
+				WHERE giftId = #{giftId}
+			""")
+	GiftPic getPicByGiftId(int giftId);
 
 }
