@@ -75,4 +75,8 @@ public class MemberService {
 		return memberDao.getMembersBySex(sex);
 	}
 
+	public Member getMember(int id) {
+		return memberDao.getMember(id);
+	}
+
 }

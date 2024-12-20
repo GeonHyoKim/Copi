@@ -88,12 +88,14 @@ public class MemberController {
 
 		if (member == null) {
 			model.addAttribute("message", "없는 아이디입니다.");
-			return "/usr/member/login";
+			model.addAttribute("redirectUrl", "/usr/member/login");
+			return "/usr/home/fail";
 		}
 
 		if (!member.getLoginPw().equals(loginPw)) {
 			model.addAttribute("message", "비밀번호를 확인해주세요");
-			return "/usr/member/login";
+			model.addAttribute("redirectUrl", "/usr/member/login");
+			return "/usr/home/fail";
 		}
 		session.setAttribute("loginedMember", member);
 		System.out.println(session.getAttribute("loginedMember").toString());
@@ -104,11 +106,11 @@ public class MemberController {
 	// 로그아웃
 	@GetMapping("/usr/member/logout")
 	public String logout(Model model) {
-		System.out.println(session.getAttribute("loginedMember").toString());
 		Member loginedMember = (Member) session.getAttribute("loginedMember");
 
 		if (loginedMember == null) {
 			model.addAttribute("message", "로그인 먼저 해주세요.");
+			model.addAttribute("redirectUrl", "/usr/member/login");
 			return "/usr/home/fail";
 		}
 		
@@ -125,16 +127,19 @@ public class MemberController {
 
 		if (member == null) {
 			model.addAttribute("message", "로그인 먼저 해주세요.");
+			model.addAttribute("redirectUrl", "/usr/member/login");
 			return "/usr/home/fail";
 		}
-
+		
 		int likeCount = heartService.getLikePointCnt(member.getId());
 		model.addAttribute("likeCount", likeCount);
-
 		List<Pic> pics = picService.getPicById(member.getId());
-
+		
+		
+		Member newMember = memberService.getMember(member.getId());
+				
 		model.addAttribute("pics", pics);
-		model.addAttribute("member", member);
+		model.addAttribute("member", newMember);
 		return "usr/member/myPage";
 	}
 
@@ -145,6 +150,7 @@ public class MemberController {
 
 		if (member == null) {
 			model.addAttribute("message", "로그인 먼저 해주세요.");
+			model.addAttribute("redirectUrl", "/usr/member/login");
 			return "/usr/home/fail";
 		}
 
@@ -162,6 +168,7 @@ public class MemberController {
 
 		if (member == null) {
 			model.addAttribute("message", "로그인 먼저 해주세요.");
+			model.addAttribute("redirectUrl", "/usr/member/login");
 			return "/usr/home/fail";
 		}
 
@@ -248,7 +255,7 @@ public class MemberController {
 
 		return "/usr/member/detail";
 	}
-
+	
 	@GetMapping("/usr/member/rank")
 	public String rank(Model model) {
 		List<Member> heartRankers = heartService.rankHeart3();
@@ -309,5 +316,7 @@ public class MemberController {
 
 		return "/usr/member/rank";
 	}
-
+	
+	
+	
 }

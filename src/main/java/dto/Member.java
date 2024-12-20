@@ -20,4 +20,5 @@ public class Member {
 	private String areaId;
 	private int views;
 	private Pic pic;
+	private int point;
 }

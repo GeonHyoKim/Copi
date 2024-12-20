@@ -42,6 +42,7 @@ public class ArticleController {
 
 		if (loginedMember == null) {
 			model.addAttribute("message", "로그인 먼저 해주세요.");
+			model.addAttribute("redirectUrl", "/usr/member/login");
 			return "/usr/home/fail";
 		}
 		return "/usr/article/write";
@@ -54,6 +55,7 @@ public class ArticleController {
 
 		if (loginedMember == null) {
 			model.addAttribute("message", "로그인 먼저 해주세요.");
+			model.addAttribute("redirectUrl", "/usr/member/login");
 			return "/usr/home/fail";
 		}
 
@@ -108,6 +110,7 @@ public class ArticleController {
 
 		if (member == null) {
 			model.addAttribute("message", "로그인 먼저 해주세요.");
+			model.addAttribute("redirectUrl", "/usr/member/login");
 			return "/usr/home/fail";
 		}
 
@@ -126,6 +129,7 @@ public class ArticleController {
 
 		if (member == null) {
 			model.addAttribute("message", "로그인 먼저 해주세요.");
+			model.addAttribute("redirectUrl", "/usr/member/login");
 			return "/usr/home/fail";
 		}
 

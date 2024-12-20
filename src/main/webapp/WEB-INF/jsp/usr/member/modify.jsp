@@ -132,7 +132,7 @@ let removedImagesList = [];
 	<div class="bg-white p-6 rounded-lg shadow-md">
 		<form action="doModify" method="post" enctype="multipart/form-data"
 			onsubmit="return writeForm_onSubmit(this);">
-			<h2 class="text-3xl font-semibold text-pink-600 mb-6">게시물 정보</h2>
+			<h2 class="text-3xl font-semibold text-pink-600 mb-6">회원정보 수정</h2>
 			<input type="hidden" name="id" value="${member.getId()}" /> <input
 				type="hidden" id="removedImages" name="removedImages" value="" />
 			<!-- 삭제된 이미지 ID 저장 -->

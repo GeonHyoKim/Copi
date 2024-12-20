@@ -12,4 +12,6 @@ public class Gift {
 	private String giftName;
 	private int price;
 	private GiftPic giftPic;
+	private String sex;
+	private String pic;
 }

@@ -3,11 +3,12 @@
 <%@ taglib uri="jakarta.tags.core" prefix="c"%>
 <c:set var="pageTitle" value="실패" />
 
+
 <script>
     <c:if test="${not empty message}">
         alert("${message}"); // 서버에서 전달된 message를 alert로 띄우기
         setTimeout(function() {
-            window.location.href = "/usr/home/home"; // 홈으로 리다이렉트
+            window.location.href = "${redirectUrl}"; // 홈으로 리다이렉트
         });
     </c:if>
 

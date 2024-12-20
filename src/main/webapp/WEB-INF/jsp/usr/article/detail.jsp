@@ -84,10 +84,10 @@
     <div class="flex justify-end space-x-4">
         <c:if test="${not empty loginedMember && !canEdit}">
             <a 
-                href="/usr/message/send?receiverId=${article.getMemberId()}" 
+                href="/usr/gift/send?receiverId=${article.getMemberId()}" 
                 class="bg-pink-600 hover:bg-pink-700 text-white font-bold px-8 py-3 rounded-full shadow-lg transition-transform transform hover:scale-105"
             >
-                메세지 보내기
+                선물하기
             </a>
         </c:if>
 

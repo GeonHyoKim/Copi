@@ -134,9 +134,9 @@
     
     <c:if test="${not empty loginedMember}">
         <div class="flex justify-center gap-4">
-            <a href="/usr/message/send?receiverId=${member.getId()}"
+            <a href="/usr/gift/send?receiverId=${member.getId()}"
                 class="bg-pink-600 hover:bg-pink-700 text-white font-bold px-6 py-3 rounded-full shadow-lg transition duration-300 w-full sm:w-auto">
-                쪽지 보내기
+                선물 보내기
             </a>
 <%--             <a href="/usr/chat/chat?receiverId=${member.getId()}" --%>
 <!--                 class="bg-pink-600 hover:bg-pink-700 text-white font-bold px-6 py-3 rounded-full shadow-lg transition duration-300 w-full sm:w-auto"> -->

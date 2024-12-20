@@ -3,6 +3,8 @@
 <%@ taglib uri="jakarta.tags.core" prefix="c"%>
 <c:set var="pageTitle" value="마이" />
 <%@ include file="/WEB-INF/jsp/common/header.jsp"%>
+<%@ page import="java.text.DecimalFormat" %>
+
 
 <script>
 	document.addEventListener("DOMContentLoaded", () => {
@@ -29,16 +31,16 @@
 
 <style>
 #photo-slider {
-    height: 300px; /* 고정된 높이 설정 */
-    position: relative;
-    overflow: hidden;
+	height: 300px; /* 고정된 높이 설정 */
+	position: relative;
+	overflow: hidden;
 }
 
 .photo-slide {
-    width: 100%; /* 너비를 부모 요소에 맞게 설정 */
-    height: 100%; /* 부모의 높이에 맞게 설정 */
-    object-fit: cover; /* 이미지를 꽉 차게 하되 비율을 유지하면서 잘리도록 설정 */
-    object-position: center center; /* 이미지의 중심을 기준으로 조정 */
+	width: 100%; /* 너비를 부모 요소에 맞게 설정 */
+	height: 100%; /* 부모의 높이에 맞게 설정 */
+	object-fit: cover; /* 이미지를 꽉 차게 하되 비율을 유지하면서 잘리도록 설정 */
+	object-position: center center; /* 이미지의 중심을 기준으로 조정 */
 }
 </style>
 
@@ -115,19 +117,27 @@
 						<td><span id="likeCnt" class="px-4 py-2 border-b">${likeCount}</span>
 							<!-- 좋아요 개수 표시 --></td>
 					</tr>
-
+					<tr class="border-b">
+						<th class="px-4 py-2 bg-pink-100 text-gray-700 text-left">보유
+							포인트</th>
+						<td class="px-4 py-2 text-gray-800">${member.point != null ? member.point : 0}원<a
+							href="/usr/point/point"
+							class="inline-block bg-pink-500 hover:bg-pink-600 text-white font-semibold px-4 py-2 rounded-full shadow-lg transition duration-300 transform hover:scale-105 ml-4">
+								💳 포인트 충전하기 </a>
+						</td>
+					</tr>
 				</tbody>
 			</table>
 		</div>
 	</div>
 	<div class="mt-8">
-		<h3 class="text-2xl font-semibold text-pink-600 mb-4">쪽지함</h3>
+		<h3 class="text-2xl font-semibold text-pink-600 mb-4">선물함</h3>
 		<div class="space-x-4">
-			<a href="${pageContext.request.contextPath}/usr/message/list"
-				class="btn btn-outline btn-pink-600 hover:bg-pink-600 hover:text-white transition duration-300 px-6 py-2">쪽지함</a>
+			<a href="${pageContext.request.contextPath}/usr/gift/list"
+				class="btn btn-outline btn-pink-600 hover:bg-pink-600 hover:text-white transition duration-300 px-6 py-2">선물함</a>
 		</div>
 	</div>
-	
+
 </section>
 
 <div class="mt-8 text-center">

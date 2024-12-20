@@ -1,0 +1,193 @@
+DROP DATABASE IF EXISTS kgh ;
+
+CREATE DATABASE kgh;
+
+USE kgh;
+
+SELECT * FROM `member`
+SELECT * FROM messages
+SELECT * FROM heart
+SELECT * FROM pic
+SELECT * FROM article
+SELECT * FROM articlePic
+SELECT * FROM chat
+SELECT * FROM gift
+SELECT * FROM giftPic
+
+DROP TABLE `member`
+DROP TABLE messages
+DROP TABLE heart
+DROP TABLE pic
+DROP TABLE article
+DROP TABLE chat
+DROP TABLE gift
+DROP TABLE present
+SELECT * FROM giftPic
+				WHERE giftid = 3
+UPDATE `member`
+	SET sex = '남성'
+	WHERE id = 27
+DELETE FROM `member`
+	WHERE id = 30
+SELECT COUNT(*) FROM chat
+			WHERE receiverId = 1
+			AND isRead = 1;
+
+SELECT c.*, m.name AS senderName FROM chat AS c
+	INNER JOIN `member` AS m
+	ON c.senderId = m.id
+	WHERE receiverId = 1
+	AND isRead = 1;
+						
+SELECT m.* FROM heart AS h
+	INNER JOIN `member` AS m
+	ON m.id = h.receiverId
+	GROUP BY receiverId
+	ORDER BY COUNT(`receiverId`) DESC
+	LIMIT 3;
+	
+SELECT * FROM `member`
+	ORDER BY views DESC
+	LIMIT 3;
+				
+SELECT * FROM `pic`
+	WHERE memberId = 1	
+	GROUP BY `memberId`
+				    
+UPDATE `heart`
+	SET receiverId = 11
+	WHERE id = 2
+
+DELETE FROM `article`
+	WHERE id = 10
+	
+ALTER TABLE `pic` ADD COLUMN `code` INT NOT NULL DEFAULT 1
+ALTER TABLE `pic` DROP COLUMN `code`
+
+ALTER TABLE `heart` ADD COLUMN `code` INT NOT NULL DEFAULT 1
+ALTER TABLE `heart` DROP COLUMN `code`
+SELECT m.name
+			FROM `member` m
+			INNER JOIN heart AS h 
+			ON m.id = h.receiverId
+			GROUP BY m.id
+			ORDER BY COUNT(h.memberId) 
+			LIMIT 3
+
+CREATE TABLE present (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    senderId INT UNSIGNED NOT NULL, 
+    receiverId INT UNSIGNED NOT NULL,
+    presentId INT UNSIGNED NOT NULL,
+    content TEXT NOT NULL,
+    `timestamp` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (senderId) REFERENCES `member`(id),
+    FOREIGN KEY (receiverId) REFERENCES `member`(id),
+    FOREIGN KEY (presentId) REFERENCES `gift`(id)
+);
+
+CREATE TABLE gift(
+	id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+	giftName VARCHAR(20) NOT NULL,
+	price INT NOT NULL
+)
+CREATE TABLE giftPic (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    giftId INT UNSIGNED NOT NULL,
+    pic VARCHAR(200) NOT NULL,
+    FOREIGN KEY (giftId) REFERENCES `gift`(id) ON DELETE CASCADE
+);			
+CREATE TABLE `member`(
+	id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT
+	, regDate DATETIME NOT NULL
+	, updateDate DATETIME NOT NULL
+	, loginId VARCHAR(100) NOT NULL
+	, loginPw VARCHAR(20) NOT NULL
+	, `name` VARCHAR(20) NOT NULL
+	, age INT NOT NULL
+	, sex VARCHAR(20) NOT NULL
+	, num INT NOT NULL
+	, areaId VARCHAR(10) NOT NULL
+
+)
+CREATE TABLE articlePic (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    articleId INT UNSIGNED NOT NULL,
+    pic VARCHAR(200) NOT NULL,
+    FOREIGN KEY (articleId) REFERENCES `article`(id) ON DELETE CASCADE;
+);
+
+
+
+CREATE TABLE heart (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    memberId INT UNSIGNED NOT NULL,
+    receiverId INT UNSIGNED NOT NULL,
+    `code` INT NOT NULL DEFAULT 1,
+    FOREIGN KEY (memberId) REFERENCES `member`(id),
+    FOREIGN KEY (receiverId) REFERENCES `member`(id)
+);
+
+CREATE TABLE article(
+	id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT
+	, regDate DATETIME NOT NULL
+	, updateDate DATETIME NOT NULL
+	, memberId INT UNSIGNED NOT NULL
+	, title VARCHAR(20) NOT NULL
+	, `body` VARCHAR(100) NOT NULL
+	, views INT UNSIGNED NOT NULL DEFAULT 0
+	, likes INT UNSIGNED NOT NULL DEFAULT 0
+	, FOREIGN KEY (memberId) REFERENCES `member`(id)
+)
+
+INSERT INTO `member`
+				SET regDate = NOW()
+				, updateDate = NOW()
+				, loginId = 'ddd'
+				, loginPw = 'ddd'
+				, `name` = '김건효'
+				, age = 25
+				, sex = 'M'
+				, num = 123
+				, areaId = '서울'
+UPDATE `pic`
+	SET `code` = 1
+	
+	
+INSERT INTO messages (senderId, receiverId, content)
+VALUES (1, 2, 'Hello, this is a test message.');
+
+ALTER TABLE `member` ADD COLUMN views INT UNSIGNED NOT NULL DEFAULT 0;
+ALTER TABLE `member` ADD COLUMN hearts INT UNSIGNED NOT NULL DEFAULT 0;
+
+
+CREATE TABLE chat (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    senderId INT UNSIGNED NOT NULL, 
+    receiverId INT UNSIGNED NOT NULL,
+    content TEXT NOT NULL,
+    `timestamp` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    isRead INT DEFAULT 1,
+    FOREIGN KEY (senderId) REFERENCES `member`(id),
+    FOREIGN KEY (receiverId) REFERENCES `member`(id)
+);
+INSERT INTO chat
+	SET senderId = 1
+		, receiverId = 26
+		, content = "1111"
+		, `timestamp` = NOW()
+		
+INSERT INTO chat
+	SET senderId = 26
+		, receiverId = 1
+		, content = "222"
+		, `timestamp` = NOW()
+
+		
+SELECT m.*, COUNT(h.id) AS heartCount
+            FROM MEMBER m
+            LEFT JOIN heart h ON m.id = h.receiverId
+            WHERE h.code = 1
+            GROUP BY m.id
+            ORDER BY COUNT(h.id) DESC
+            LIMIT 3

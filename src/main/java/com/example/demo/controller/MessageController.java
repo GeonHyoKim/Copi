@@ -8,10 +8,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.demo.service.GiftService;
 import com.example.demo.service.MessageService;
+import com.example.demo.service.PicService;
 
+import dto.Gift;
+import dto.GiftPic;
 import dto.Member;
-import dto.present;
+import dto.Present;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -19,10 +23,15 @@ public class MessageController {
 
 	private MessageService messageService;
 	private HttpSession session;
+	private GiftService giftService;
+	private PicService picService; 
 
-	public MessageController(MessageService messageService, HttpSession session) {
+	public MessageController(GiftService giftService, PicService picService, MessageService messageService, HttpSession session) {
 		this.messageService = messageService;
 		this.session = session;
+		this.giftService = giftService;
+		this.picService = picService;
+
 	}
 
 	@GetMapping("/usr/message/list")
@@ -34,8 +43,8 @@ public class MessageController {
 			return "/usr/home/fail";
 		}
 
-		List<present> receivedMessages = messageService.getReceivedMessages(loginedMember.getId());
-		List<present> sentMessages = messageService.getSentMessages(loginedMember.getId());
+		List<Present> receivedMessages = messageService.getReceivedMessages(loginedMember.getId());
+		List<Present> sentMessages = messageService.getSentMessages(loginedMember.getId());
 		
 		model.addAttribute("sentMessages", sentMessages);
 		model.addAttribute("receivedMessages", receivedMessages);
@@ -44,7 +53,14 @@ public class MessageController {
 
 	@GetMapping("/usr/message/send")
 	public String send(Model model, @RequestParam int receiverId) {
-		
+//		List<Gift> gifts = giftService.getGifts();
+//
+//		for (Gift gift : gifts) {
+//			GiftPic giftPic = picService.getPicByGiftId(gift.getId());
+//			gift.setGiftPic(giftPic);
+//		}
+//		
+//		model.addAttribute("gifts", gifts);
 		model.addAttribute("receiverId", receiverId);
 		return "usr/message/send";
 	}
@@ -70,7 +86,7 @@ public class MessageController {
 
 	@GetMapping("/usr/message/detail")
 	public String detail(@RequestParam int id, Model model) {
-		present message = messageService.getMessageById(id);
+		Present message = messageService.getMessageById(id);
 
 		if (message == null) {
 			model.addAttribute("message", "쪽지를 찾을 수 없습니다.");

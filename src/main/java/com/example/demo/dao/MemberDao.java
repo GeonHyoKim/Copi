@@ -83,5 +83,11 @@ public interface MemberDao {
 			    WHERE sex = #{sex}
 			""")
 	List<Member> getMembersBySex(@Param("sex") String sex);
+	
+	@Select("""
+			SELECT * FROM `member`
+				WHERE id = #{id}
+			""")
+	Member getMember(int id);
 
 }

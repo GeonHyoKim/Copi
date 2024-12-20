@@ -20,19 +20,6 @@
 </script>
 
 <script>
-const joinForm_onSubmit = function(form) {
-    // 기타 유효성 검사...
-
-    const phoneRegex = /^(010|011|016|017|018|019)-\d{3,4}-\d{4}$/;
-    if (!phoneRegex.test(form.num.value)) {
-        alert('전화번호 형식이 올바르지 않습니다. (예: 010-1234-5678)');
-        form.num.focus();
-        return;
-    }
-
-    form.submit();
-}
-
 	let validLoginId = null;
 	const joinForm_onSubmit = function(form) {
 		form.loginId.value = form.loginId.value.trim();
@@ -98,8 +85,15 @@ const joinForm_onSubmit = function(form) {
 			return;
 		}
 		
-		console.log(form.areaId.value);
-		form.submit();
+		const phoneRegex = /^(010|011|016|017|018|019)\d{3,4}\d{4}$/;
+	    if (!phoneRegex.test(form.num.value)) {
+	        alert('전화번호 형식이 올바르지 않습니다. (예: 01012345678)');
+	        form.num.focus();
+	        return;
+	    }
+
+	    form.submit();
+	    
 		
 	}
 </script>
@@ -209,12 +203,12 @@ const joinForm_onSubmit = function(form) {
 						</select>
 					</div>
 					<div>
-    <label class="block text-sm font-medium text-gray-700">번호</label>
-    <input type="tel" name="num" placeholder="번호를 입력해주세요"
-        class="input input-bordered w-full py-3 px-4 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-500" 
-        pattern="^(010|011|016|017|018|019)-\d{3,4}-\d{4}$" 
-        title="전화번호는 010-XXXX-XXXX 형식으로 입력해주세요" required />
-</div>
+					    <label class="block text-sm font-medium text-gray-700">번호</label>
+					    <input type="tel" name="num" placeholder="번호를 입력해주세요"
+					        class="input input-bordered w-full py-3 px-4 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-500" 
+					        pattern="^(010|011|016|017|018|019)\d{3,4}\d{4}$" 
+					        title="전화번호는 010XXXXXXXX 형식으로 입력해주세요" />
+					</div>
 					<div>
 						<label class="block text-sm font-medium text-gray-700">지역 - <button type="button" onclick="getLocation()">위치 찾기</button></label>
 						주소 : <input name="areaId" id="areaId" />

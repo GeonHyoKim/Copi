@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class present {
+public class Present {
 	private int id;
 	private int senderId;
 	private int receiverId;
@@ -19,4 +19,6 @@ public class present {
 	private boolean is_read;
 	private String senderName;
     private String receiverName;
+    private String giftName;
+    private String giftPic;
 }
