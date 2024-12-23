@@ -93,7 +93,7 @@
 				<li
 					class="hover:underline hover:text-pink-600 transition duration-300">
 					<a class="px-3 py-1"
-					href="${pageContext.request.contextPath}/usr/article/list">Article</a>
+					href="${pageContext.request.contextPath}/usr/article/list">Community</a>
 
 				</li>
 

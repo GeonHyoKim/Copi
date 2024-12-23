@@ -72,16 +72,15 @@
 
     <!-- 버튼 -->
 <div class="mt-10 text-center space-x-4">
-    <div class="flex justify-start space-x-4">
+    <div class="flex justify-center space-x-4">
         <button 
             onclick="history.back()" 
             class="bg-gray-600 hover:bg-gray-700 text-white font-bold px-8 py-3 rounded-full shadow-lg transition-transform transform hover:scale-105"
         >
             뒤로가기
         </button>
-    </div>
+    
 
-    <div class="flex justify-end space-x-4">
         <c:if test="${not empty loginedMember && !canEdit}">
             <a 
                 href="/usr/gift/send?receiverId=${article.getMemberId()}" 

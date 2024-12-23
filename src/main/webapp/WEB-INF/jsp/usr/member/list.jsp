@@ -145,7 +145,7 @@
 
 <script>
 	function openPopup() {
-		const url = "/usr/member/test"; // 팝업에 표시할 페이지 URL
+		const url = "/usr/member/map"; // 팝업에 표시할 페이지 URL
 		const popupOptions = "width=1000, height=1000, left=100, top=100, resizable=no, scrollbars=yes";
 		window.open(url, "findFriendsPopup", popupOptions);
 	}

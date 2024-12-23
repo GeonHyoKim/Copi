@@ -76,6 +76,7 @@ public class GiftController {
 		Member sessionMember = (Member) session.getAttribute("loginedMember");
 		if (sessionMember == null) {
 			model.addAttribute("message", "로그인 먼저 해주세요.");
+			model.addAttribute("redirectUrl", "/usr/member/login");
 			return "/usr/home/fail";
 		}
 		
@@ -118,7 +119,7 @@ public class GiftController {
 		
 		if(sender.getPoint() < gift.getPrice()) {
 			model.addAttribute("message", "보유금액이 부족합니다.");
-			model.addAttribute("redirectUrl", "/usr/member/point");
+			model.addAttribute("redirectUrl", "/usr/member/list");
 			return "/usr/home/fail";
 		}
 		
@@ -127,7 +128,8 @@ public class GiftController {
 		giftService.memberPoint(sender.getId(), gift.getPrice());
 		
 		model.addAttribute("message", "선물 보내기 성공");
-		return "/usr/member/list";
+		model.addAttribute("redirectUrl", "/usr/gift/list");
+		return "/usr/home/success";
 	}
 	
 	@GetMapping("/usr/gift/list")

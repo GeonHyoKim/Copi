@@ -221,7 +221,7 @@ public class MemberController {
 		return "/usr/member/list";
 	}
 	
-	@GetMapping("/usr/member/test")
+	@GetMapping("/usr/member/map")
 	public String test(Model model) {
 		List<Member> members = memberService.getMembers();
 		
@@ -230,7 +230,7 @@ public class MemberController {
 			member.setPic(pic);
 		}
 		model.addAttribute("members", members);
-		return"/usr/member/test";
+		return"/usr/member/map";
 	}
 
 	// 디테일

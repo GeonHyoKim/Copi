@@ -21,4 +21,5 @@ public class Member {
 	private int views;
 	private Pic pic;
 	private int point;
+	
 }

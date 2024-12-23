@@ -13,6 +13,7 @@ SELECT * FROM articlePic
 SELECT * FROM chat
 SELECT * FROM gift
 SELECT * FROM giftPic
+SELECT * FROM present
 
 DROP TABLE `member`
 DROP TABLE messages
@@ -25,10 +26,11 @@ DROP TABLE present
 SELECT * FROM giftPic
 				WHERE giftid = 3
 UPDATE `member`
-	SET sex = '남성'
-	WHERE id = 27
-DELETE FROM `member`
-	WHERE id = 30
+	SET `point` = `point` + 5000
+	WHERE id = 1
+	
+DELETE FROM `present`
+	WHERE id = 9
 SELECT COUNT(*) FROM chat
 			WHERE receiverId = 1
 			AND isRead = 1;
@@ -61,7 +63,7 @@ UPDATE `heart`
 DELETE FROM `article`
 	WHERE id = 10
 	
-ALTER TABLE `pic` ADD COLUMN `code` INT NOT NULL DEFAULT 1
+ALTER TABLE `member` ADD COLUMN `point` INT NOT NULL DEFAULT 0
 ALTER TABLE `pic` DROP COLUMN `code`
 
 ALTER TABLE `heart` ADD COLUMN `code` INT NOT NULL DEFAULT 1
